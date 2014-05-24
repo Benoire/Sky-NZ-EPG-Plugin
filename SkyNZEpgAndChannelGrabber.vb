@@ -1,11 +1,7 @@
 ﻿Imports Custom_Data_Grabber
 Imports System.Threading
 Imports System.Linq
-Imports System.Drawing
 Imports System.IO
-Imports System.Drawing.Imaging
-Imports System.Drawing.Drawing2D
-Imports My
 Imports TvDatabase
 Imports TvLibrary.Channels
 Imports TvLibrary.Epg
@@ -17,7 +13,6 @@ Imports System
 Imports System.Text
 Imports System.Collections.Generic
 Imports System.Runtime.CompilerServices
-Imports System.Net
 Imports Microsoft.VisualBasic.CompilerServices
 Imports DirectShowLib.BDA
 Imports Microsoft.VisualBasic
@@ -28,10 +23,10 @@ Imports MediaPortal.Common.Utils
 
 <Assembly: CompatibleVersion("1.1.6.27796")> 
 
-Public Class SkyNZEpgAndChannelGrabber
+Public Class SkyNzEpgAndChannelGrabber
 
     Implements ITvServerPlugin
-    Dim settings As Settings
+    Dim _settings As Settings
     Dim WithEvents skygrabber As SkyGrabber
     Dim WithEvents timer As Timers.Timer
 
@@ -41,45 +36,45 @@ Public Class SkyNZEpgAndChannelGrabber
 
     Sub OnTick() Handles timer.Elapsed
 
-        If (Not settings.IsGrabbing AndAlso settings.AutoUpdate) Then
-            If settings.EveryHour Then
-                If settings.LastUpdate.AddHours(settings.UpdateInterval) < Now Then
+        If (Not _settings.IsGrabbing AndAlso _settings.AutoUpdate) Then
+            If _settings.EveryHour Then
+                If _settings.LastUpdate.AddHours(_settings.UpdateInterval) < Now Then
                     skygrabber.Grab()
                 End If
-            ElseIf (((Now.Hour = settings.UpdateTime.Hour) And (DateTime.Compare(settings.LastUpdate.Date, Now.Date) <> 0)) AndAlso ((Now.Minute >= settings.UpdateTime.Minute) And (Now.Minute <= (settings.UpdateTime.Minute + 10)))) Then
+            ElseIf (((Now.Hour = _settings.UpdateTime.Hour) And (DateTime.Compare(_settings.LastUpdate.Date, Now.Date) <> 0)) AndAlso ((Now.Minute >= _settings.UpdateTime.Minute) And (Now.Minute <= (_settings.UpdateTime.Minute + 10)))) Then
                 Select Case Now.DayOfWeek
                     Case DayOfWeek.Sunday
-                        If settings.Sun Then
+                        If _settings.Sun Then
                             skygrabber.Grab()
                         End If
                         Exit Select
                     Case DayOfWeek.Monday
-                        If settings.Mon Then
+                        If _settings.Mon Then
                             skygrabber.Grab()
                         End If
                         Exit Select
                     Case DayOfWeek.Tuesday
-                        If settings.Tue Then
+                        If _settings.Tue Then
                             skygrabber.Grab()
                         End If
                         Exit Select
                     Case DayOfWeek.Wednesday
-                        If settings.Wed Then
+                        If _settings.Wed Then
                             skygrabber.Grab()
                         End If
                         Exit Select
                     Case DayOfWeek.Thursday
-                        If settings.Thu Then
+                        If _settings.Thu Then
                             skygrabber.Grab()
                         End If
                         Exit Select
                     Case DayOfWeek.Friday
-                        If settings.Fri Then
+                        If _settings.Fri Then
                             skygrabber.Grab()
                         End If
                         Exit Select
                     Case DayOfWeek.Saturday
-                        If settings.Sat Then
+                        If _settings.Sat Then
                             skygrabber.Grab()
                         End If
                         Exit Select
@@ -88,16 +83,16 @@ Public Class SkyNZEpgAndChannelGrabber
         End If
     End Sub
 
-    Private Sub skygrabber_OnMessage(ByVal [Text] As String, ByVal UpdateLast As Boolean) Handles skygrabber.OnMessage
-        If Not UpdateLast Then
+    Private Sub skygrabber_OnMessage(ByVal text As String, ByVal updateLast As Boolean) Handles skygrabber.OnMessage
+        If Not updateLast Then
             Log.Write("Sky Plugin : " & [Text])
         End If
     End Sub
 
     Public Sub Start(ByVal controller As IController) Implements ITvServerPlugin.Start
         skygrabber = New SkyGrabber
-        settings = New Settings
-        settings.IsGrabbing = False
+        _settings = New Settings
+        _settings.IsGrabbing = False
         timer = New Timers.Timer
         timer.Interval = 1800000
         timer.Start()
@@ -105,7 +100,7 @@ Public Class SkyNZEpgAndChannelGrabber
 
     Public Sub Stopit() Implements ITvServerPlugin.Stop
         timer.Start()
-        settings = Nothing
+        _settings = Nothing
         skygrabber = Nothing
     End Sub
 
@@ -225,7 +220,7 @@ Public Class Settings
     Private Shared _wed As Boolean
     Private ReadOnly _cats As Dictionary(Of Byte, String) = New Dictionary(Of Byte, String)
     Private ReadOnly _layer As TvBusinessLayer = New TvBusinessLayer
-    Private ReadOnly _returnlist As List(Of Integer) = New List(Of Integer)
+    Public _returnlist As List(Of Integer) = New List(Of Integer)
     Private ReadOnly _themes As Dictionary(Of Integer, String) = New Dictionary(Of Integer, String)
 
     'Methods
