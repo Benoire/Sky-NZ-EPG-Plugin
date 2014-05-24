@@ -34,7 +34,7 @@ Public Class SkyNzEpgAndChannelGrabber
     'OnTick()
     'End Sub
 
-    Sub OnTick() Handles timer.Elapsed
+    Sub OnTick() Handles Timer.Elapsed
 
         If (Not _settings.IsGrabbing AndAlso _settings.AutoUpdate) Then
             If _settings.EveryHour Then
@@ -83,7 +83,7 @@ Public Class SkyNzEpgAndChannelGrabber
         End If
     End Sub
 
-    Private Sub skygrabber_OnMessage(ByVal text As String, ByVal updateLast As Boolean) Handles skygrabber.OnMessage
+    Private Sub skygrabber_OnMessage(ByVal text As String, ByVal updateLast As Boolean) Handles SkyGrabber.OnMessage
         If Not updateLast Then
             Log.Write("Sky Plugin : " & [Text])
         End If
@@ -851,62 +851,62 @@ Public Class Settings
         End Set
     End Property
 
-    'Public Property CardMap As List(Of Integer) 'older code that works for mapping channels.
-    '    Get
-    '        Dim returnlist As New List(Of Integer)
-    '        Dim stringtouse As String = GetSkySetting("CardMap", "")
-    '        If stringtouse.Length > 0 Then
-    '            If stringtouse.Length = 1 Then
-    '                returnlist.Add(Convert.ToInt32(stringtouse))
-    '            Else
-    '                Dim array1() As String = stringtouse.Split(",")
-    '                If array1.Count > 0 Then
-    '                    returnlist.AddRange(From str In array1 Select Convert.ToInt32(str))
-    '                End If
-    '            End If
-    '        End If
-    '        Return returnlist
-    '    End Get
-    '    Set(ByVal value As List(Of Integer))
-    '        Dim str As New StringBuilder
-    '        If value.Count > 0 Then
-    '            For Each num As Integer In value
-    '                str.Append("," & num.ToString)
-    '            Next
-    '            str.Remove(0, 1)
-    '        End If
-    '        UpdateSetting("CardMap", str.ToString)
-    '    End Set
-    'End Property
-
-    Public Property CardMap As List(Of Integer) 'new code that doesn't appear to work.
+    Public Property CardMap As List(Of Integer) 'older code that works for mapping channels.
         Get
-            Dim expression As Object = _syncObj
-            ObjectFlowControl.CheckForSyncLockOnValueType(expression)
-            SyncLock expression
-                Return _returnlist
-            End SyncLock
+            Dim returnlist As New List(Of Integer)
+            Dim stringtouse As String = GetSkySetting("CardMap", "")
+            If stringtouse.Length > 0 Then
+                If stringtouse.Length = 1 Then
+                    returnlist.Add(Convert.ToInt32(stringtouse))
+                Else
+                    Dim array1() As String = stringtouse.Split(",")
+                    If array1.Count > 0 Then
+                        returnlist.AddRange(From str In array1 Select Convert.ToInt32(str))
+                    End If
+                End If
+            End If
+            Return returnlist
         End Get
         Set(ByVal value As List(Of Integer))
-            Dim expression As Object = _syncObj
-            ObjectFlowControl.CheckForSyncLockOnValueType(expression)
-            SyncLock expression
-                Dim builder As New StringBuilder
-                _returnlist.Clear()
-                If (value.Count > 0) Then
-                    Dim num As Integer
-                    For Each num In value
-                        If Not _returnlist.Contains(num) Then
-                            _returnlist.Add(num)
-                            builder.Append(("," & num.ToString))
-                        End If
-                    Next
-                    builder.Remove(0, 1)
-                End If
-                UpdateSetting("CardMap", builder.ToString)
-            End SyncLock
+            Dim str As New StringBuilder
+            If value.Count > 0 Then
+                For Each num As Integer In value
+                    str.Append("," & num.ToString)
+                Next
+                str.Remove(0, 1)
+            End If
+            UpdateSetting("CardMap", str.ToString)
         End Set
     End Property
+
+    'Public Property CardMap As List(Of Integer) 'new code that doesn't appear to work.
+    '    Get
+    '        Dim expression As Object = _syncObj
+    '        ObjectFlowControl.CheckForSyncLockOnValueType(expression)
+    '        SyncLock expression
+    '            Return _returnlist
+    '        End SyncLock
+    '    End Get
+    '    Set(ByVal value As List(Of Integer))
+    '        Dim expression As Object = _syncObj
+    '        ObjectFlowControl.CheckForSyncLockOnValueType(expression)
+    '        SyncLock expression
+    '            Dim builder As New StringBuilder
+    '            _returnlist.Clear()
+    '            If (value.Count > 0) Then
+    '                Dim num As Integer
+    '                For Each num In value
+    '                    If Not _returnlist.Contains(num) Then
+    '                        _returnlist.Add(num)
+    '                        builder.Append(("," & num.ToString))
+    '                    End If
+    '                Next
+    '                builder.Remove(0, 1)
+    '            End If
+    '            UpdateSetting("CardMap", builder.ToString)
+    '        End SyncLock
+    '    End Set
+    'End Property
 
     Public Property LastUpdate As DateTime
         Get
