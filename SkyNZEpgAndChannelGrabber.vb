@@ -1550,11 +1550,9 @@ Label_0185:
                 Else
                     Dim source As String() = skySetting.Split(New Char() {","c})
                     If (Enumerable.Count(Of String)(source) > 0) Then
-                        Dim str4 As String
-                        For Each str4 In source
-                            If Not _returnlist.Contains(Convert.ToInt32(str4)) Then
-                                _returnlist.Add(Convert.ToInt32(str4))
-                            End If
+                        'Dim str4 As String
+                        For Each str4 As String In From str41 In source Where Not _returnlist.Contains(Convert.ToInt32(str41))
+                            _returnlist.Add(Convert.ToInt32(str4))
                         Next
                     End If
                 End If
@@ -2149,9 +2147,6 @@ Public Class SkyGrabber
                 If (Not OnMessageEvent Is Nothing) Then
                     RaiseEvent OnMessage("(" & ChannelsAdded & "/" & Channels.Count & ") Channels sorted", True)
                 End If
-                If Settings.UseThrottle Then
-                    Thread.Sleep(200)
-                End If
                 Dim scannedchannel As Sky_Channel = pair.Value
                 Dim key As Integer = pair.Key
                 If (key < 1) Then
@@ -2161,20 +2156,20 @@ Public Class SkyGrabber
                 If (((scannedchannel.NID = 0) Or (scannedchannel.TID = 0)) Or (scannedchannel.SID = 0)) Then
                     Continue For
                 End If
-                Dim channelbySID As SDTInfo = GetChannelbySID(scannedchannel.NID & "-" & scannedchannel.TID & "-" & scannedchannel.SID)
-                If (channelbySID Is Nothing) Then
+                Dim channelbySid As SDTInfo = GetChannelbySID(scannedchannel.NID & "-" & scannedchannel.TID & "-" & scannedchannel.SID)
+                If (channelbySid Is Nothing) Then
                     Continue For
                 End If
-                If (channelbySID.SID < 1) Then
-                    channelbySID.SID = scannedchannel.SID
+                If (channelbySid.SID < 1) Then
+                    channelbySid.SID = scannedchannel.SID
                 End If
-                If (channelbySID.ChannelName = "") Then
-                    channelbySID.ChannelName = channelbySID.SID
+                If (channelbySid.ChannelName = "") Then
+                    channelbySid.ChannelName = channelbySid.SID
                 End If
-                If Not (channelbySID.Provider = "SkyNZ") Then
-                    channelbySID.Provider = "SkyNZ"
+                If Not (channelbySid.Provider = "SkyNZ") Then
+                    channelbySid.Provider = "SkyNZ"
                 End If
-                If (ignoreScrambled And channelbySID.isFTA) Then
+                If (ignoreScrambled And channelbySid.isFTA) Then
                     Continue For
                 End If
                 Dim channelbyExternalID As Channel = _layer.GetChannelbyExternalID(("SkyNZ:" & scannedchannel.ChannelID.ToString))
@@ -2182,7 +2177,7 @@ Public Class SkyGrabber
                     Dim list As List(Of TuningDetail) = DirectCast(channelbyExternalID.ReferringTuningDetail, List(Of TuningDetail))
                     Dim detail2 As TuningDetail
                     For Each detail2 In list
-                        If ((detail2.ChannelType = 3) And (detail2.NetworkId = 169)) Then
+                        If ((detail2.ChannelType = 3) And (detail2.NetworkId = 169 Or detail2.NetworkId = 47)) Then
                             detail = detail2
                             Exit For
                         End If
@@ -2214,7 +2209,7 @@ Label_0299:
                         visibleinguide = False
                     End If
                 End If
-                Dim DBChannel As Channel = _layer.AddNewChannel(channelbySID.ChannelName, channelNumber)
+                Dim DBChannel As Channel = _layer.AddNewChannel(channelbySid.ChannelName, channelNumber)
                 Dim descriptor As NITSatDescriptor = NITInfo.Item(scannedchannel.TID)
                 DVBSChannel.BandType = BandType.Universal
                 DVBSChannel.DisEqc = DirectCast(diseqC, DisEqcType)
@@ -2222,9 +2217,9 @@ Label_0299:
                 DVBSChannel.Frequency = descriptor.Frequency
                 DVBSChannel.SymbolRate = descriptor.Symbolrate
                 DVBSChannel.InnerFecRate = DirectCast(descriptor.FECInner, BinaryConvolutionCodeRate)
-                DVBSChannel.IsRadio = channelbySID.isRadio
-                DVBSChannel.IsTv = channelbySID.isTV
-                DVBSChannel.FreeToAir = Not channelbySID.isFTA
+                DVBSChannel.IsRadio = channelbySid.isRadio
+                DVBSChannel.IsTv = channelbySid.isTV
+                DVBSChannel.FreeToAir = Not channelbySid.isFTA
                 DBChannel.ChannelNumber = channelNumber
                 DBChannel.SortOrder = channelNumber
                 DVBSChannel.LogicalChannelNumber = channelNumber
@@ -2255,7 +2250,7 @@ Label_0299:
 Label_0506:
                 DVBSChannel.ModulationType = ModulationType.ModNotDefined
 Label_0520:
-                DVBSChannel.Name = channelbySID.ChannelName
+                DVBSChannel.Name = channelbySid.ChannelName
                 DVBSChannel.NetworkId = scannedchannel.NID
                 DVBSChannel.Pilot = Pilot.NotSet
                 DVBSChannel.Rolloff = RollOff.NotSet
@@ -2264,17 +2259,17 @@ Label_0520:
                 End If
                 DVBSChannel.PmtPid = 0
                 DVBSChannel.Polarisation = DirectCast(descriptor.Polarisation, Polarisation)
-                DVBSChannel.Provider = channelbySID.Provider
+                DVBSChannel.Provider = channelbySid.Provider
                 DVBSChannel.ServiceId = scannedchannel.SID
                 DVBSChannel.TransportId = scannedchannel.TID
                 DVBSChannel.SwitchingFrequency = switchingFrequency
-                DBChannel.IsRadio = channelbySID.isRadio
-                DBChannel.IsTv = channelbySID.isTV
+                DBChannel.IsRadio = channelbySid.isRadio
+                DBChannel.IsTv = channelbySid.isTV
                 DBChannel.ExternalId = ("SkyNZ:" & scannedchannel.ChannelID.ToString)
                 DBChannel.Persist()
                 _layer.AddTuningDetails(DBChannel, DVBSChannel)
                 MapChannelToCards(DBChannel)
-                AddChannelToGroups(DBChannel, channelbySID, DVBSChannel, useSkyCategories)
+                AddChannelToGroups(DBChannel, channelbySid, DVBSChannel, useSkyCategories)
                 Continue For
 Label_072B:
                 DBChannel = detail.ReferencedChannel
@@ -2799,7 +2794,7 @@ Label_0BD2:
                 Catch
                     Continue For
                 End Try
-                If NetworkID <> 169 Then Continue For 'Not a Sky NZ channel, original code uses 2 for NetworkID.
+                If (NetworkID <> 169 Or NetworkID <> 47) Then Continue For 'Not a Sky NZ channel, original code uses 2 for NetworkID.
                 If Channels.ContainsKey(ChannelID) = False Then
                     removechannel(Channelto, DeleteOld, OldFolder)
                     Continue For
