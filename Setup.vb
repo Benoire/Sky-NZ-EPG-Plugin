@@ -811,7 +811,6 @@ Public Class Setup
         Me.CatText15.Name = "CatText15"
         Me.CatText15.Size = New System.Drawing.Size(133, 20)
         Me.CatText15.TabIndex = 65
-        Me.CatText15.Text = "Sky Help"
         '
         'CatByte15
         '
@@ -819,7 +818,6 @@ Public Class Setup
         Me.CatByte15.Name = "CatByte15"
         Me.CatByte15.Size = New System.Drawing.Size(39, 20)
         Me.CatByte15.TabIndex = 64
-        Me.CatByte15.Text = "16"
         '
         'Label21
         '
@@ -846,7 +844,6 @@ Public Class Setup
         Me.CatText14.Name = "CatText14"
         Me.CatText14.Size = New System.Drawing.Size(133, 20)
         Me.CatText14.TabIndex = 61
-        Me.CatText14.Text = "Adult"
         '
         'CatByte14
         '
@@ -854,7 +851,6 @@ Public Class Setup
         Me.CatByte14.Name = "CatByte14"
         Me.CatByte14.Size = New System.Drawing.Size(39, 20)
         Me.CatByte14.TabIndex = 60
-        Me.CatByte14.Text = "63"
         '
         'CatText13
         '
@@ -862,7 +858,6 @@ Public Class Setup
         Me.CatText13.Name = "CatText13"
         Me.CatText13.Size = New System.Drawing.Size(133, 20)
         Me.CatText13.TabIndex = 59
-        Me.CatText13.Text = "Specialist"
         '
         'CatByte13
         '
@@ -870,7 +865,6 @@ Public Class Setup
         Me.CatByte13.Name = "CatByte13"
         Me.CatByte13.Size = New System.Drawing.Size(39, 20)
         Me.CatByte13.TabIndex = 58
-        Me.CatByte13.Text = "255"
         '
         'Label23
         '
@@ -897,7 +891,6 @@ Public Class Setup
         Me.CatText12.Name = "CatText12"
         Me.CatText12.Size = New System.Drawing.Size(133, 20)
         Me.CatText12.TabIndex = 55
-        Me.CatText12.Text = "Gaming & Dating"
         '
         'CatByte12
         '
@@ -905,7 +898,6 @@ Public Class Setup
         Me.CatByte12.Name = "CatByte12"
         Me.CatByte12.Size = New System.Drawing.Size(39, 20)
         Me.CatByte12.TabIndex = 54
-        Me.CatByte12.Text = "95"
         '
         'CatText11
         '
@@ -913,7 +905,7 @@ Public Class Setup
         Me.CatText11.Name = "CatText11"
         Me.CatText11.Size = New System.Drawing.Size(133, 20)
         Me.CatText11.TabIndex = 53
-        Me.CatText11.Text = "International"
+        Me.CatText11.Text = "Interactive"
         '
         'CatByte11
         '
@@ -921,7 +913,7 @@ Public Class Setup
         Me.CatByte11.Name = "CatByte11"
         Me.CatByte11.Size = New System.Drawing.Size(39, 20)
         Me.CatByte11.TabIndex = 52
-        Me.CatByte11.Text = "223"
+        Me.CatByte11.Text = "15"
         '
         'Label5
         '
@@ -938,7 +930,7 @@ Public Class Setup
         Me.CatText9.Name = "CatText9"
         Me.CatText9.Size = New System.Drawing.Size(133, 20)
         Me.CatText9.TabIndex = 50
-        Me.CatText9.Text = "Shopping"
+        Me.CatText9.Text = "News & Documentaries"
         '
         'CatByte9
         '
@@ -946,7 +938,7 @@ Public Class Setup
         Me.CatByte9.Name = "CatByte9"
         Me.CatByte9.Size = New System.Drawing.Size(39, 20)
         Me.CatByte9.TabIndex = 49
-        Me.CatByte9.Text = "48"
+        Me.CatByte9.Text = "191"
         '
         'Label11
         '
@@ -973,7 +965,7 @@ Public Class Setup
         Me.CatText7.Name = "CatText7"
         Me.CatText7.Size = New System.Drawing.Size(133, 20)
         Me.CatText7.TabIndex = 46
-        Me.CatText7.Text = "Kids"
+        Me.CatText7.Text = "News & Documentaries"
         '
         'CatByte7
         '
@@ -981,7 +973,7 @@ Public Class Setup
         Me.CatByte7.Name = "CatByte7"
         Me.CatByte7.Size = New System.Drawing.Size(39, 20)
         Me.CatByte7.TabIndex = 45
-        Me.CatByte7.Text = "80"
+        Me.CatByte7.Text = "47"
         '
         'CatText10
         '
@@ -989,7 +981,7 @@ Public Class Setup
         Me.CatText10.Name = "CatText10"
         Me.CatText10.Size = New System.Drawing.Size(133, 20)
         Me.CatText10.TabIndex = 44
-        Me.CatText10.Text = "Religion"
+        Me.CatText10.Text = "Adult"
         '
         'CatByte10
         '
@@ -997,7 +989,7 @@ Public Class Setup
         Me.CatByte10.Name = "CatByte10"
         Me.CatByte10.Size = New System.Drawing.Size(39, 20)
         Me.CatByte10.TabIndex = 43
-        Me.CatByte10.Text = "191"
+        Me.CatByte10.Text = "255"
         '
         'Label13
         '
@@ -1024,7 +1016,7 @@ Public Class Setup
         Me.CatText6.Name = "CatText6"
         Me.CatText6.Size = New System.Drawing.Size(133, 20)
         Me.CatText6.TabIndex = 40
-        Me.CatText6.Text = "Documentaries"
+        Me.CatText6.Text = "Music Videos"
         '
         'CatByte6
         '
@@ -1032,7 +1024,7 @@ Public Class Setup
         Me.CatByte6.Name = "CatByte6"
         Me.CatByte6.Size = New System.Drawing.Size(39, 20)
         Me.CatByte6.TabIndex = 39
-        Me.CatByte6.Text = "127"
+        Me.CatByte6.Text = "111"
         '
         'CatText5
         '
@@ -1040,7 +1032,7 @@ Public Class Setup
         Me.CatText5.Name = "CatText5"
         Me.CatText5.Size = New System.Drawing.Size(133, 20)
         Me.CatText5.TabIndex = 38
-        Me.CatText5.Text = "News"
+        Me.CatText5.Text = "Sky Sports"
         '
         'CatByte5
         '
@@ -1048,7 +1040,7 @@ Public Class Setup
         Me.CatByte5.Name = "CatByte5"
         Me.CatByte5.Size = New System.Drawing.Size(39, 20)
         Me.CatByte5.TabIndex = 37
-        Me.CatByte5.Text = "176"
+        Me.CatByte5.Text = "79"
         '
         'Label7
         '
@@ -1065,7 +1057,7 @@ Public Class Setup
         Me.CatText4.Name = "CatText4"
         Me.CatText4.Size = New System.Drawing.Size(133, 20)
         Me.CatText4.TabIndex = 33
-        Me.CatText4.Text = "Sports"
+        Me.CatText4.Text = "Sky Movies"
         '
         'CatByte4
         '
@@ -1073,7 +1065,7 @@ Public Class Setup
         Me.CatByte4.Name = "CatByte4"
         Me.CatByte4.Size = New System.Drawing.Size(39, 20)
         Me.CatByte4.TabIndex = 32
-        Me.CatByte4.Text = "240"
+        Me.CatByte4.Text = "31"
         '
         'Label3
         '
@@ -1100,7 +1092,7 @@ Public Class Setup
         Me.CatText8.Name = "CatText8"
         Me.CatText8.Size = New System.Drawing.Size(133, 20)
         Me.CatText8.TabIndex = 29
-        Me.CatText8.Text = "Music"
+        Me.CatText8.Text = "News & Documentaries"
         '
         'CatByte8
         '
@@ -1116,7 +1108,7 @@ Public Class Setup
         Me.CatText3.Name = "CatText3"
         Me.CatText3.Size = New System.Drawing.Size(133, 20)
         Me.CatText3.TabIndex = 27
-        Me.CatText3.Text = "Movies"
+        Me.CatText3.Text = "Entertainment"
         '
         'CatByte3
         '
@@ -1124,7 +1116,7 @@ Public Class Setup
         Me.CatByte3.Name = "CatByte3"
         Me.CatByte3.Size = New System.Drawing.Size(39, 20)
         Me.CatByte3.TabIndex = 26
-        Me.CatByte3.Text = "208"
+        Me.CatByte3.Text = "175"
         '
         'Label2
         '
@@ -1151,7 +1143,7 @@ Public Class Setup
         Me.CatText2.Name = "CatText2"
         Me.CatText2.Size = New System.Drawing.Size(133, 20)
         Me.CatText2.TabIndex = 3
-        Me.CatText2.Text = "Lifestyle & Culture"
+        Me.CatText2.Text = "Entertainment"
         '
         'CatByte2
         '
@@ -1159,7 +1151,7 @@ Public Class Setup
         Me.CatByte2.Name = "CatByte2"
         Me.CatByte2.Size = New System.Drawing.Size(39, 20)
         Me.CatByte2.TabIndex = 2
-        Me.CatByte2.Text = "31"
+        Me.CatByte2.Text = "127"
         '
         'CatText1
         '
@@ -1176,7 +1168,7 @@ Public Class Setup
         Me.CatByte1.Name = "CatByte1"
         Me.CatByte1.Size = New System.Drawing.Size(39, 20)
         Me.CatByte1.TabIndex = 0
-        Me.CatByte1.Text = "112"
+        Me.CatByte1.Text = "63"
         '
         'groupBox3
         '
@@ -1333,7 +1325,7 @@ Public Class Setup
         Me.TextBox4.Name = "TextBox4"
         Me.TextBox4.Size = New System.Drawing.Size(63, 20)
         Me.TextBox4.TabIndex = 104
-        Me.TextBox4.Text = "4152"
+        Me.TextBox4.Text = "9003"
         '
         'MpLabel4
         '
@@ -1351,7 +1343,7 @@ Public Class Setup
         Me.TextBox5.Name = "TextBox5"
         Me.TextBox5.Size = New System.Drawing.Size(63, 20)
         Me.TextBox5.TabIndex = 102
-        Me.TextBox5.Text = "2004"
+        Me.TextBox5.Text = "3"
         '
         'TextBox6
         '
@@ -1360,7 +1352,7 @@ Public Class Setup
         Me.TextBox6.Name = "TextBox6"
         Me.TextBox6.Size = New System.Drawing.Size(63, 20)
         Me.TextBox6.TabIndex = 40
-        Me.TextBox6.Text = "11778000"
+        Me.TextBox6.Text = "12519000"
         '
         'MpLabel5
         '
@@ -1378,7 +1370,7 @@ Public Class Setup
         Me.TextBox10.Name = "TextBox10"
         Me.TextBox10.Size = New System.Drawing.Size(63, 20)
         Me.TextBox10.TabIndex = 43
-        Me.TextBox10.Text = "27500"
+        Me.TextBox10.Text = "22500"
         '
         'MpLabel9
         '
@@ -1392,7 +1384,7 @@ Public Class Setup
         'MpLabel10
         '
         Me.MpLabel10.AutoSize = True
-        Me.MpLabel10.Location = New System.Drawing.Point(82, 53)
+        Me.MpLabel10.Location = New System.Drawing.Point(78, 35)
         Me.MpLabel10.Name = "MpLabel10"
         Me.MpLabel10.Size = New System.Drawing.Size(26, 13)
         Me.MpLabel10.TabIndex = 41

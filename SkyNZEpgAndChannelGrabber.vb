@@ -3062,99 +3062,208 @@ Label_0BD2:
         str3 = ""
     End Sub
 
-    Public Function NewHuffman(ByVal Data As Byte(), ByVal Length As Integer) As String
-        Dim num As Byte
-        Dim obj2 As Object
-        Dim obj7 As Object
-        Dim builder2 As New StringBuilder
-        Dim builder As New StringBuilder
-        Dim flag3 As Boolean = False
+    '    Public Function NewHuffman(ByVal Data As Byte(), ByVal Length As Integer) As String 'latest UK 1.4.0.6
+    '        Dim num As Byte
+    '        Dim obj2 As Object
+    '        Dim obj7 As Object
+    '        Dim builder2 As New StringBuilder
+    '        Dim builder As New StringBuilder
+    '        Dim flag3 As Boolean = False
+    '        nH = orignH
+    '        Dim left As Object = 0
+    '        Dim obj4 As Object = 0
+    '        builder2.Length = 0
+    '        builder.Length = 0
+    '        Dim flag As Boolean = False
+    '        Dim flag2 As Boolean = False
+    '        Dim index As Byte = 0
+    '        Dim num3 As Byte = 0
+    '        nH = orignH
+    '        If Not ObjectFlowControl.ForLoopControl.ForLoopInitObj(obj2, 0, (Length - 1), 1, obj7, obj2) Then
+    '            GoTo Label_02BC
+    '        End If
+    'Label_0074:
+    '        num = Data(Conversions.ToInteger(obj2))
+    '        Dim num4 As Byte = &H80
+    '        If Operators.ConditionalCompareObjectEqual(obj2, 0, False) Then
+    '            If ((num And &H20) = 1) Then
+    '                flag3 = True
+    '            End If
+    '            num4 = &H20
+    '            index = Conversions.ToByte(obj2)
+    '            num3 = num4
+    '        End If
+    'Label_00B0:
+    '        If flag2 Then
+    '            index = Conversions.ToByte(obj2)
+    '            num3 = num4
+    '            flag2 = False
+    '        End If
+    '        If ((num And num4) = 0) Then
+    '            If flag Then
+    '                builder.Append("0x30")
+    '                obj4 = Operators.AddObject(obj4, 1)
+    '                GoTo Label_029D
+    '            End If
+    '            If (Not nH.P0 Is Nothing) Then
+    '                nH = nH.P0
+    '                If (nH.Value <> "") Then
+    '                    If (nH.Value <> "!!!") Then
+    '                        builder2.Append(nH.Value)
+    '                    End If
+    '                    left = Operators.AddObject(left, Len(nH.Value))
+    '                    nH = orignH
+    '                    flag2 = True
+    '                End If
+    '                GoTo Label_029D
+    '            End If
+    '            left = Operators.AddObject(left, 9)
+    '            obj2 = index
+    '            num = Data(index)
+    '            num4 = num3
+    '            flag = True
+    '            GoTo Label_00B0
+    '        End If
+    '        If flag Then
+    '            builder.Append("0x31")
+    '            obj4 = Operators.AddObject(obj4, 1)
+    '        ElseIf (Not nH.P1 Is Nothing) Then
+    '            nH = nH.P1
+    '            If (nH.Value <> "") Then
+    '                If (nH.Value <> "!!!") Then
+    '                    builder2.Append(nH.Value)
+    '                End If
+    '                left = Operators.AddObject(left, Len(nH.Value))
+    '                nH = orignH
+    '                flag2 = True
+    '            End If
+    '        Else
+    '            left = Operators.AddObject(left, 9)
+    '            obj2 = index
+    '            num = Data(index)
+    '            num4 = num3
+    '            flag = True
+    '            GoTo Label_00B0
+    '        End If
+    'Label_029D:
+    '        num4 = CByte((num4 >> 1))
+    '        If (num4 > 0) Then
+    '            GoTo Label_00B0
+    '        End If
+    '        If ObjectFlowControl.ForLoopControl.ForNextCheckObj(obj2, obj7, obj2) Then
+    '            GoTo Label_0074
+    '        End If
+    'Label_02BC:
+    '        Return builder2.ToString
+    '    End Function
+
+    Public Function NewHuffman(ByVal Data() As Byte, ByVal Length As Integer) As String 'Original Sky UK 1.2.0.7 source
+
+        Dim DecodeText, DecodeErrorText As New StringBuilder
+        Dim i, p, q
+        Dim CodeError, IsFound As Boolean
+        Dim showatend As Boolean = False
+        Dim Byter, lastByte, Mask, lastMask As Byte
         nH = orignH
-        Dim left As Object = 0
-        Dim obj4 As Object = 0
-        builder2.Length = 0
-        builder.Length = 0
-        Dim flag As Boolean = False
-        Dim flag2 As Boolean = False
-        Dim index As Byte = 0
-        Dim num3 As Byte = 0
+        p = 0
+        q = 0
+        DecodeText.Length = 0
+        DecodeErrorText.Length = 0
+        CodeError = False
+        IsFound = False
+        lastByte = 0
+        lastMask = 0
         nH = orignH
-        If Not ObjectFlowControl.ForLoopControl.ForLoopInitObj(obj2, 0, (Length - 1), 1, obj7, obj2) Then
-            GoTo Label_02BC
-        End If
-Label_0074:
-        num = Data(Conversions.ToInteger(obj2))
-        Dim num4 As Byte = &H80
-        If Operators.ConditionalCompareObjectEqual(obj2, 0, False) Then
-            If ((num And &H20) = 1) Then
-                flag3 = True
+
+        For i = 0 To Length - 1
+            Byter = Data(i)
+            Mask = &H80
+            If (i = 0) Then
+                If (Byter And &H20) = 1 Then
+                    showatend = True
+
+                End If
+
+                Mask = &H20
+                lastByte = i
+                lastMask = Mask
             End If
-            num4 = &H20
-            index = Conversions.ToByte(obj2)
-            num3 = num4
-        End If
-Label_00B0:
-        If flag2 Then
-            index = Conversions.ToByte(obj2)
-            num3 = num4
-            flag2 = False
-        End If
-        If ((num And num4) = 0) Then
-            If flag Then
-                builder.Append("0x30")
-                obj4 = Operators.AddObject(obj4, 1)
-                GoTo Label_029D
+loop1:
+            If (IsFound) Then
+                lastByte = i
+                lastMask = Mask
+                IsFound = False
             End If
-            If (Not nH.P0 Is Nothing) Then
-                nH = nH.P0
-                If (nH.Value <> "") Then
-                    If (nH.Value <> "!!!") Then
-                        builder2.Append(nH.Value)
+
+            If ((Byter And Mask) = 0) Then
+
+                If (CodeError) Then
+
+                    DecodeErrorText.Append("0x30")
+                    q += 1
+                    GoTo nextloop1
+                End If
+
+                If (nH.P0 Is Nothing) = False Then
+                    nH = nH.P0
+                    If (nH.Value <> "") Then
+                        If nH.Value <> "!!!" Then
+                            DecodeText.Append(nH.Value)
+                        End If
+
+                        p += Len(nH.Value)
+                        nH = orignH
+                        IsFound = True
                     End If
-                    left = Operators.AddObject(left, Len(nH.Value))
-                    nH = orignH
-                    flag2 = True
+                Else
+                    p += 9
+                    i = lastByte
+                    Byter = Data(lastByte)
+                    Mask = lastMask
+                    CodeError = True
+                    GoTo loop1
                 End If
-                GoTo Label_029D
-            End If
-            left = Operators.AddObject(left, 9)
-            obj2 = index
-            num = Data(index)
-            num4 = num3
-            flag = True
-            GoTo Label_00B0
-        End If
-        If flag Then
-            builder.Append("0x31")
-            obj4 = Operators.AddObject(obj4, 1)
-        ElseIf (Not nH.P1 Is Nothing) Then
-            nH = nH.P1
-            If (nH.Value <> "") Then
-                If (nH.Value <> "!!!") Then
-                    builder2.Append(nH.Value)
+
+            Else
+
+                If (CodeError) Then
+
+                    DecodeErrorText.Append("0x31")
+                    q += 1
+                    GoTo nextloop1
                 End If
-                left = Operators.AddObject(left, Len(nH.Value))
-                nH = orignH
-                flag2 = True
+                If (nH.P1 Is Nothing) = False Then
+                    nH = nH.P1
+                    If (nH.Value <> "") Then
+                        If nH.Value <> "!!!" Then
+                            DecodeText.Append(nH.Value)
+                        End If
+                        p += Len(nH.Value)
+                        nH = orignH
+                        IsFound = True
+                    End If
+
+                Else
+
+                    p += 9
+                    i = lastByte
+                    Byter = Data(lastByte)
+                    Mask = lastMask
+                    CodeError = True
+                    GoTo loop1
+                End If
             End If
-        Else
-            left = Operators.AddObject(left, 9)
-            obj2 = index
-            num = Data(index)
-            num4 = num3
-            flag = True
-            GoTo Label_00B0
-        End If
-Label_029D:
-        num4 = CByte((num4 >> 1))
-        If (num4 > 0) Then
-            GoTo Label_00B0
-        End If
-        If ObjectFlowControl.ForLoopControl.ForNextCheckObj(obj2, obj7, obj2) Then
-            GoTo Label_0074
-        End If
-Label_02BC:
-        Return builder2.ToString
+nextloop1:
+            Mask = Mask >> 1
+            If (Mask > 0) Then
+                GoTo loop1
+            End If
+
+
+        Next
+
+        Return DecodeText.ToString
+
     End Function
 
     Private Sub OnTitleDecoded()
@@ -3337,7 +3446,7 @@ Label_016E:
             Dim exception As ArgumentException = exception1
             OnMessageEvent = Nothing
             If (Not OnMessageEvent Is Nothing) Then
-                RaiseEvent OnMessage("** ERROR DECODING STRING - SEE COLLECTION LOG **", replace)
+                RaiseEvent OnMessage("** ERROR DECODING STRING - SEE COLLECTION LOG **" & exception.Message, replace)
             End If
             ProjectData.ClearProjectError()
         End Try
