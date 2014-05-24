@@ -2389,6 +2389,9 @@ Label_0BD2:
                         ElseIf scannedchannel.ContainsLCN(BouquetIDtoUse, 255) Then
                             skyNum = scannedchannel.GetLCN(BouquetIDtoUse, 255).SkyNum
                         End If
+                        If channelNumber > 800 Then
+                            visibleinguide = False
+                        End If
                         If (((detail.ChannelNumber <> skyNum) And (skyNum < 800)) Or ((skyNum > 800) And (DBChannel.ChannelNumber <> 10000))) Then
                             If (Not OnMessageEvent Is Nothing) Then
                                 RaiseEvent OnMessage("Channel : " & DBChannel.DisplayName & " number has changed from : " & tuningChannel.LogicalChannelNumber & " to : " & skyNum & ".", False)
@@ -2401,7 +2404,7 @@ Label_0BD2:
                             DBChannel.ChannelNumber = skyNum
                             tuningChannel.LogicalChannelNumber = skyNum
                             DBChannel.SortOrder = skyNum
-                            DBChannel.VisibleInGuide = True
+                            DBChannel.VisibleInGuide = visibleinguide
                             flag10 = True
                             AddChannelToGroups(DBChannel, sDT, tuningChannel, useSkyCategories)
                         End If
