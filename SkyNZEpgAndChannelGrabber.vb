@@ -2166,7 +2166,7 @@ Public Class SkyGrabber
                 If (channelbySid.ChannelName = "") Then
                     channelbySid.ChannelName = channelbySid.SID
                 End If
-                If Not (channelbySid.Provider = "SkyNZ") Then
+                If channelbySid.Provider = "" Then
                     channelbySid.Provider = "SkyNZ"
                 End If
                 If (ignoreScrambled And channelbySid.isFTA) Then
@@ -2205,7 +2205,7 @@ Label_0299:
                     ElseIf scannedchannel.ContainsLCN(BouquetIDtoUse, 255) Then
                         channelNumber = scannedchannel.GetLCN(BouquetIDtoUse, 255).SkyNum
                     End If
-                    If (channelNumber = 10000) Then
+                    If channelNumber > 800 Then
                         visibleinguide = False
                     End If
                 End If
@@ -2389,7 +2389,7 @@ Label_0BD2:
                         ElseIf scannedchannel.ContainsLCN(BouquetIDtoUse, 255) Then
                             skyNum = scannedchannel.GetLCN(BouquetIDtoUse, 255).SkyNum
                         End If
-                        If (((detail.ChannelNumber <> skyNum) And (skyNum < 1000)) Or ((skyNum = 10000) And (DBChannel.ChannelNumber <> 10000))) Then
+                        If (((detail.ChannelNumber <> skyNum) And (skyNum < 800)) Or ((skyNum > 800) And (DBChannel.ChannelNumber <> 10000))) Then
                             If (Not OnMessageEvent Is Nothing) Then
                                 RaiseEvent OnMessage("Channel : " & DBChannel.DisplayName & " number has changed from : " & tuningChannel.LogicalChannelNumber & " to : " & skyNum & ".", False)
                             End If
