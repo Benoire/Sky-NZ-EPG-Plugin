@@ -1714,11 +1714,20 @@ Public Class SkyGrabber
     End Function
 
     Public Function DoesTidCarryEpgTitleData(ByVal tableId As Integer) As Boolean
-        Return ((((TableID = &HA0) Or (TableID = &HA1)) Or (TableID = &HA2)) Or (TableID = &HA3))
+        Return (tableId = &HA0) Or (tableId = &HA1) Or (tableId = &HA2) Or (tableId = &HA3)
     End Function
 
-    Public Function IsTitleDataCarouselOnPidComplete(ByVal pid As Integer) As Boolean
-        Return completedTitleDataCarousels.Any(Function(pid1) (pid1 = pid))
+    'Public Function IsTitleDataCarouselOnPidComplete(ByVal pid As Integer) As Boolean
+    '    Return completedTitleDataCarousels.Any(Function(pid1) (pid1 = pid))
+    'End Function
+
+    Function IsTitleDataCarouselOnPidComplete(ByVal pid As Integer) As Boolean
+        For Each pid1 As Integer In completedTitleDataCarousels
+            If (pid1 = pid) Then
+                Return True
+            End If
+        Next
+        Return False
     End Function
 
     Private Sub OnTitleReceived(ByVal pid As Integer, ByVal titleChannelEventUnionId As String)
@@ -1739,7 +1748,7 @@ Public Class SkyGrabber
         If summaryDataCarouselStartLookup.ContainsKey(pid) Then
             If (summaryDataCarouselStartLookup.Item(pid) = summaryChannelEventUnionId) Then
                 completedSummaryDataCarousels.Add(pid)
-                If Not Conversions.ToBoolean(AreAllSummariesPopulated) Then
+                If Not AreAllSummariesPopulated() Then
                 End If
             End If
         Else
@@ -1747,8 +1756,15 @@ Public Class SkyGrabber
         End If
     End Sub
 
-    Public Function IsSummaryDataCarouselOnPidComplete(ByVal pid As Integer) As Boolean
-        Return completedSummaryDataCarousels.Any(Function(pid1) (pid1 = pid))
+    'Public Function IsSummaryDataCarouselOnPidComplete(ByVal pid As Integer) As Boolean
+    '    Return completedSummaryDataCarousels.Any(Function(pid1) (pid1 = pid))
+    'End Function
+
+    Function IsSummaryDataCarouselOnPidComplete(ByVal pid As Integer) As Boolean
+        For Each pid1 As Integer In completedSummaryDataCarousels
+            If pid1 = pid Then Return True
+        Next
+        Return False
     End Function
 
     Public Sub UpdateEPGEvent(ByRef channelId As Integer, ByVal eventId As Integer, ByVal SkyEvent As SkyEvent)
@@ -1774,22 +1790,22 @@ Public Class SkyGrabber
     Private Sub OnTitleSectionReceived(ByVal pid As Integer, ByVal section As Custom_Data_Grabber.Section)
         Try
             If (Not IsTitleDataCarouselOnPidComplete(pid) AndAlso DoesTidCarryEpgTitleData(section.table_id)) Then
-                Dim data As Byte() = section.Data
-                Dim num5 As Integer = ((((data(1) And 15) * &H100) + data(2)) - 2)
+                Dim buffer As Byte() = section.Data
+                Dim totallength As Integer = (((buffer(1) And 15) * &H100) + buffer(2)) - 2
                 If (section.section_length >= 20) Then
-                    Dim channelId As Long = CLng(Math.Round(CDbl(((data(3) * 256) + data(4)))))
-                    Dim num4 As Long = CLng(Math.Round(CDbl(((data(8) * 256) + data(9)))))
-                    If Not ((channelId = 0) Or (num4 = 0)) Then
-                        Dim num2 As Integer = 10
-                        Dim num3 As Integer = 0
-                        Do While (num2 < num5)
-                            If (num3 > &H200) Then
+                    Dim channelId As Long = (buffer(3) * 256) + buffer(4)
+                    Dim mjdstart As Long = (buffer(8) * 256) + buffer(9)
+                    If Not (channelId = 0) Or (mjdstart = 0) Then
+                        Dim currenttitleitem As Integer = 10
+                        Dim iterationcounter As Integer = 0
+                        Do While (currenttitleitem < totallength)
+                            If (iterationcounter > 512) Then
                                 Return
                             End If
-                            num3 += 1
-                            Dim eventId As Integer = CInt(Math.Round(CDbl(((data((num2 + 0)) * 256) + data((num2 + 1))))))
-                            Dim num11 As Double = ((data((num2 + 2)) And 240) >> 4)
-                            Dim num6 As Integer = CInt(Math.Round(CDbl((((data((num2 + 2)) And 15) * 256) + data((num2 + 3))))))
+                            iterationcounter += 1
+                            Dim eventId As Integer = (buffer(currenttitleitem + 0) * 256) + buffer(currenttitleitem + 1)
+                            Dim headerType As Double = (buffer((currenttitleitem + 2) And 240) >> 4)
+                            Dim bodyLength As Integer = (buffer((currenttitleitem + 2) And 15) * 256) + buffer(currenttitleitem + 3)
                             Dim titleChannelEventUnionId As String = (channelId.ToString & ":" & eventId.ToString)
                             OnTitleReceived(pid, titleChannelEventUnionId)
                             If IsTitleDataCarouselOnPidComplete(pid) Then
@@ -1799,42 +1815,66 @@ Public Class SkyGrabber
                             If (epgEvent Is Nothing) Then
                                 Return
                             End If
-                            epgEvent.mjdStart = num4
+                            epgEvent.mjdStart = mjdstart
                             epgEvent.EventID = eventId
-                            Const num10 As Integer = 4
-                            Dim num7 As Integer = (num2 + num10)
-                            Dim num12 As Integer = data((num7 + 0))
-                            Dim length As Integer = (data((num7 + 1)) - 7)
-                            If (num12 = &HB5) Then
-                                epgEvent.StartTime = CInt((CLng(Math.Round(CDbl((data((num7 + 2)) * 512)))) Or CLng(Math.Round(CDbl((data((num7 + 3)) * 2))))))
-                                epgEvent.Duration = CInt((CLng(Math.Round(CDbl((data((num7 + 4)) * 512)))) Or CLng(Math.Round(CDbl((data((num7 + 5)) * 2))))))
-                                Dim num13 As Byte = data((num7 + 6))
-                                epgEvent.Category = Conversions.ToString(num13)
-                                epgEvent.SetFlags(data((num7 + 7)))
-                                epgEvent.SetCategory(data((num7 + 8)))
-                                epgEvent.seriesTermination = (((data((num7 + 8)) And &H40) >> 6) Xor 1)
-                                If (length <= 0) Then
-                                    num2 = (num2 + (num10 + num6))
+                            Const headerLength As Integer = 4
+                            Dim currentTitleItemBody As Integer = (currenttitleitem + headerLength)
+                            Dim titleDescriptor As Integer = buffer((currentTitleItemBody + 0))
+                            Dim encodedBufferLength As Integer = (buffer((currentTitleItemBody + 1)) - 7)
+                            If (titleDescriptor = &HB5) Then
+                                epgEvent.StartTime = CInt((CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 2)) * 512)))) Or CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 3)) * 2))))))
+                                epgEvent.Duration = CInt((CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 4)) * 512)))) Or CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 5)) * 2))))))
+                                Dim themeId As Byte = buffer((currentTitleItemBody + 6))
+                                epgEvent.Category = Conversions.ToString(themeId)
+                                epgEvent.SetFlags(buffer((currentTitleItemBody + 7)))
+                                epgEvent.SetCategory(buffer((currentTitleItemBody + 8)))
+                                epgEvent.seriesTermination = (((buffer((currentTitleItemBody + 8)) And &H40) >> 6) Xor 1)
+                                If (encodedBufferLength <= 0) Then
+                                    currenttitleitem = (currenttitleitem + (headerLength + bodyLength))
                                 End If
                                 If (epgEvent.Title <> "") Then
                                     Return
                                 End If
-                                Dim destinationArray As Byte() = New Byte(&H1001 - 1) {}
-                                If (((num7 + 9) + length) > data.Length) Then
+                                'Dim huffbuff As Byte() = New Byte(&H1001 - 1) {}
+                                'If (((currentTitleItemBody + 9) + encodedBufferLength) > buffer.Length) Then
+                                '    Return
+                                'End If
+                                'Array.Copy(buffer, (currentTitleItemBody + 9), huffbuff, 0, encodedBufferLength)
+                                'epgEvent.Title = NewHuffman(huffbuff, encodedBufferLength)
+                                'If (epgEvent.Title <> "") Then
+                                '    OnTitleDecoded()
+                                'End If
+                                ''Dim num14 As Integer = CInt(channelId)
+                                'UpdateEPGEvent(channelId, epgEvent.EventID, epgEvent)
+                                ''channelId = num14
+                                Dim huffbuff As Byte() = New Byte(&H1001 - 1) {}
+                                If (((currentTitleItemBody + 9) + encodedBufferLength) > buffer.Length) Then
                                     Return
                                 End If
-                                Array.Copy(data, (num7 + 9), destinationArray, 0, length)
-                                epgEvent.Title = NewHuffman(destinationArray, length)
+                                Array.Copy(buffer, (currentTitleItemBody + 9), huffbuff, 0, encodedBufferLength)
+                                epgEvent.Title = NewHuffman(huffbuff, encodedBufferLength)
+                                Dim title As String = ""
+                                If Not epgEvent.Title.StartsWith("[[") Then
+                                    title = epgEvent.Title
+                                Else
+                                    Dim index As Integer = epgEvent.Title.IndexOf("]")
+                                    If (((index <> -1) AndAlso (Conversions.ToString(epgEvent.Title.Chars((index + 1))) = "]")) AndAlso ((index + 2) < epgEvent.Title.Length)) Then
+                                        title = epgEvent.Title.Substring((index + 2))
+                                    Else
+                                        title = epgEvent.Title
+                                    End If
+                                End If
+                                epgEvent.Title = title
                                 If (epgEvent.Title <> "") Then
                                     OnTitleDecoded()
                                 End If
-                                Dim num14 As Integer = CInt(channelId)
-                                UpdateEPGEvent(num14, epgEvent.EventID, epgEvent)
-                                channelId = num14
+                                Dim num15 As Integer = CInt(channelId)
+                                UpdateEPGEvent(num15, epgEvent.EventID, epgEvent)
+                                channelId = num15
                             End If
-                            num2 = (num2 + (num6 + num10))
+                            currenttitleitem = (currenttitleitem + (bodyLength + headerLength))
                         Loop
-                        If (num2 <> (num5 + 1)) Then
+                        If (currenttitleitem <> (totallength + 1)) Then
                         End If
                     End If
                 End If
@@ -3055,209 +3095,209 @@ Label_0BD2:
         str3 = ""
     End Sub
 
-    '    Public Function NewHuffman(ByVal Data As Byte(), ByVal Length As Integer) As String 'latest UK 1.4.0.6
-    '        Dim num As Byte
-    '        Dim obj2 As Object
-    '        Dim obj7 As Object
-    '        Dim builder2 As New StringBuilder
-    '        Dim builder As New StringBuilder
-    '        Dim flag3 As Boolean = False
-    '        nH = orignH
-    '        Dim left As Object = 0
-    '        Dim obj4 As Object = 0
-    '        builder2.Length = 0
-    '        builder.Length = 0
-    '        Dim flag As Boolean = False
-    '        Dim flag2 As Boolean = False
-    '        Dim index As Byte = 0
-    '        Dim num3 As Byte = 0
-    '        nH = orignH
-    '        If Not ObjectFlowControl.ForLoopControl.ForLoopInitObj(obj2, 0, (Length - 1), 1, obj7, obj2) Then
-    '            GoTo Label_02BC
-    '        End If
-    'Label_0074:
-    '        num = Data(Conversions.ToInteger(obj2))
-    '        Dim num4 As Byte = &H80
-    '        If Operators.ConditionalCompareObjectEqual(obj2, 0, False) Then
-    '            If ((num And &H20) = 1) Then
-    '                flag3 = True
-    '            End If
-    '            num4 = &H20
-    '            index = Conversions.ToByte(obj2)
-    '            num3 = num4
-    '        End If
-    'Label_00B0:
-    '        If flag2 Then
-    '            index = Conversions.ToByte(obj2)
-    '            num3 = num4
-    '            flag2 = False
-    '        End If
-    '        If ((num And num4) = 0) Then
-    '            If flag Then
-    '                builder.Append("0x30")
-    '                obj4 = Operators.AddObject(obj4, 1)
-    '                GoTo Label_029D
-    '            End If
-    '            If (Not nH.P0 Is Nothing) Then
-    '                nH = nH.P0
-    '                If (nH.Value <> "") Then
-    '                    If (nH.Value <> "!!!") Then
-    '                        builder2.Append(nH.Value)
-    '                    End If
-    '                    left = Operators.AddObject(left, Len(nH.Value))
-    '                    nH = orignH
-    '                    flag2 = True
-    '                End If
-    '                GoTo Label_029D
-    '            End If
-    '            left = Operators.AddObject(left, 9)
-    '            obj2 = index
-    '            num = Data(index)
-    '            num4 = num3
-    '            flag = True
-    '            GoTo Label_00B0
-    '        End If
-    '        If flag Then
-    '            builder.Append("0x31")
-    '            obj4 = Operators.AddObject(obj4, 1)
-    '        ElseIf (Not nH.P1 Is Nothing) Then
-    '            nH = nH.P1
-    '            If (nH.Value <> "") Then
-    '                If (nH.Value <> "!!!") Then
-    '                    builder2.Append(nH.Value)
-    '                End If
-    '                left = Operators.AddObject(left, Len(nH.Value))
-    '                nH = orignH
-    '                flag2 = True
-    '            End If
-    '        Else
-    '            left = Operators.AddObject(left, 9)
-    '            obj2 = index
-    '            num = Data(index)
-    '            num4 = num3
-    '            flag = True
-    '            GoTo Label_00B0
-    '        End If
-    'Label_029D:
-    '        num4 = CByte((num4 >> 1))
-    '        If (num4 > 0) Then
-    '            GoTo Label_00B0
-    '        End If
-    '        If ObjectFlowControl.ForLoopControl.ForNextCheckObj(obj2, obj7, obj2) Then
-    '            GoTo Label_0074
-    '        End If
-    'Label_02BC:
-    '        Return builder2.ToString
-    '    End Function
-
-    Public Function NewHuffman(ByVal Data() As Byte, ByVal Length As Integer) As String 'Original Sky UK 1.2.0.7 source
-
-        Dim DecodeText, DecodeErrorText As New StringBuilder
-        Dim i, p, q
-        Dim CodeError, IsFound As Boolean
-        Dim showatend As Boolean = False
-        Dim Byter, lastByte, Mask, lastMask As Byte
+    Public Function NewHuffman(ByVal Data As Byte(), ByVal Length As Integer) As String 'latest UK 1.4.0.6
+        Dim num As Byte
+        Dim obj2 As Object
+        Dim obj7 As Object
+        Dim builder2 As New StringBuilder
+        Dim builder As New StringBuilder
+        Dim flag3 As Boolean = False
         nH = orignH
-        p = 0
-        q = 0
-        DecodeText.Length = 0
-        DecodeErrorText.Length = 0
-        CodeError = False
-        IsFound = False
-        lastByte = 0
-        lastMask = 0
+        Dim left As Object = 0
+        Dim obj4 As Object = 0
+        builder2.Length = 0
+        builder.Length = 0
+        Dim flag As Boolean = False
+        Dim flag2 As Boolean = False
+        Dim index As Byte = 0
+        Dim num3 As Byte = 0
         nH = orignH
-
-        For i = 0 To Length - 1
-            Byter = Data(i)
-            Mask = &H80
-            If (i = 0) Then
-                If (Byter And &H20) = 1 Then
-                    showatend = True
-
-                End If
-
-                Mask = &H20
-                lastByte = i
-                lastMask = Mask
+        If Not ObjectFlowControl.ForLoopControl.ForLoopInitObj(obj2, 0, (Length - 1), 1, obj7, obj2) Then
+            GoTo Label_02BC
+        End If
+Label_0074:
+        num = Data(Conversions.ToInteger(obj2))
+        Dim num4 As Byte = &H80
+        If Operators.ConditionalCompareObjectEqual(obj2, 0, False) Then
+            If ((num And &H20) = 1) Then
+                flag3 = True
             End If
-loop1:
-            If (IsFound) Then
-                lastByte = i
-                lastMask = Mask
-                IsFound = False
+            num4 = &H20
+            index = Conversions.ToByte(obj2)
+            num3 = num4
+        End If
+Label_00B0:
+        If flag2 Then
+            index = Conversions.ToByte(obj2)
+            num3 = num4
+            flag2 = False
+        End If
+        If ((num And num4) = 0) Then
+            If flag Then
+                builder.Append("0x30")
+                obj4 = Operators.AddObject(obj4, 1)
+                GoTo Label_029D
             End If
-
-            If ((Byter And Mask) = 0) Then
-
-                If (CodeError) Then
-
-                    DecodeErrorText.Append("0x30")
-                    q += 1
-                    GoTo nextloop1
-                End If
-
-                If (nH.P0 Is Nothing) = False Then
-                    nH = nH.P0
-                    If (nH.Value <> "") Then
-                        If nH.Value <> "!!!" Then
-                            DecodeText.Append(nH.Value)
-                        End If
-
-                        p += Len(nH.Value)
-                        nH = orignH
-                        IsFound = True
+            If (Not nH.P0 Is Nothing) Then
+                nH = nH.P0
+                If (nH.Value <> "") Then
+                    If (nH.Value <> "!!!") Then
+                        builder2.Append(nH.Value)
                     End If
-                Else
-                    p += 9
-                    i = lastByte
-                    Byter = Data(lastByte)
-                    Mask = lastMask
-                    CodeError = True
-                    GoTo loop1
+                    left = Operators.AddObject(left, Len(nH.Value))
+                    nH = orignH
+                    flag2 = True
                 End If
-
-            Else
-
-                If (CodeError) Then
-
-                    DecodeErrorText.Append("0x31")
-                    q += 1
-                    GoTo nextloop1
-                End If
-                If (nH.P1 Is Nothing) = False Then
-                    nH = nH.P1
-                    If (nH.Value <> "") Then
-                        If nH.Value <> "!!!" Then
-                            DecodeText.Append(nH.Value)
-                        End If
-                        p += Len(nH.Value)
-                        nH = orignH
-                        IsFound = True
-                    End If
-
-                Else
-
-                    p += 9
-                    i = lastByte
-                    Byter = Data(lastByte)
-                    Mask = lastMask
-                    CodeError = True
-                    GoTo loop1
-                End If
+                GoTo Label_029D
             End If
-nextloop1:
-            Mask = Mask >> 1
-            If (Mask > 0) Then
-                GoTo loop1
+            left = Operators.AddObject(left, 9)
+            obj2 = index
+            num = Data(index)
+            num4 = num3
+            flag = True
+            GoTo Label_00B0
+        End If
+        If flag Then
+            builder.Append("0x31")
+            obj4 = Operators.AddObject(obj4, 1)
+        ElseIf (Not nH.P1 Is Nothing) Then
+            nH = nH.P1
+            If (nH.Value <> "") Then
+                If (nH.Value <> "!!!") Then
+                    builder2.Append(nH.Value)
+                End If
+                left = Operators.AddObject(left, Len(nH.Value))
+                nH = orignH
+                flag2 = True
             End If
-
-
-        Next
-
-        Return DecodeText.ToString
-
+        Else
+            left = Operators.AddObject(left, 9)
+            obj2 = index
+            num = Data(index)
+            num4 = num3
+            flag = True
+            GoTo Label_00B0
+        End If
+Label_029D:
+        num4 = CByte((num4 >> 1))
+        If (num4 > 0) Then
+            GoTo Label_00B0
+        End If
+        If ObjectFlowControl.ForLoopControl.ForNextCheckObj(obj2, obj7, obj2) Then
+            GoTo Label_0074
+        End If
+Label_02BC:
+        Return builder2.ToString
     End Function
+
+    '    Public Function NewHuffman(ByVal Data() As Byte, ByVal Length As Integer) As String 'Original Sky UK 1.2.0.7 source
+
+    '        Dim DecodeText, DecodeErrorText As New StringBuilder
+    '        Dim i, p, q
+    '        Dim CodeError, IsFound As Boolean
+    '        Dim showatend As Boolean = False
+    '        Dim Byter, lastByte, Mask, lastMask As Byte
+    '        nH = orignH
+    '        p = 0
+    '        q = 0
+    '        DecodeText.Length = 0
+    '        DecodeErrorText.Length = 0
+    '        CodeError = False
+    '        IsFound = False
+    '        lastByte = 0
+    '        lastMask = 0
+    '        nH = orignH
+
+    '        For i = 0 To Length - 1
+    '            Byter = Data(i)
+    '            Mask = &H80
+    '            If (i = 0) Then
+    '                If (Byter And &H20) = 1 Then
+    '                    showatend = True
+
+    '                End If
+
+    '                Mask = &H20
+    '                lastByte = i
+    '                lastMask = Mask
+    '            End If
+    'loop1:
+    '            If (IsFound) Then
+    '                lastByte = i
+    '                lastMask = Mask
+    '                IsFound = False
+    '            End If
+
+    '            If ((Byter And Mask) = 0) Then
+
+    '                If (CodeError) Then
+
+    '                    DecodeErrorText.Append("0x30")
+    '                    q += 1
+    '                    GoTo nextloop1
+    '                End If
+
+    '                If (nH.P0 Is Nothing) = False Then
+    '                    nH = nH.P0
+    '                    If (nH.Value <> "") Then
+    '                        If nH.Value <> "!!!" Then
+    '                            DecodeText.Append(nH.Value)
+    '                        End If
+
+    '                        p += Len(nH.Value)
+    '                        nH = orignH
+    '                        IsFound = True
+    '                    End If
+    '                Else
+    '                    p += 9
+    '                    i = lastByte
+    '                    Byter = Data(lastByte)
+    '                    Mask = lastMask
+    '                    CodeError = True
+    '                    GoTo loop1
+    '                End If
+
+    '            Else
+
+    '                If (CodeError) Then
+
+    '                    DecodeErrorText.Append("0x31")
+    '                    q += 1
+    '                    GoTo nextloop1
+    '                End If
+    '                If (nH.P1 Is Nothing) = False Then
+    '                    nH = nH.P1
+    '                    If (nH.Value <> "") Then
+    '                        If nH.Value <> "!!!" Then
+    '                            DecodeText.Append(nH.Value)
+    '                        End If
+    '                        p += Len(nH.Value)
+    '                        nH = orignH
+    '                        IsFound = True
+    '                    End If
+
+    '                Else
+
+    '                    p += 9
+    '                    i = lastByte
+    '                    Byter = Data(lastByte)
+    '                    Mask = lastMask
+    '                    CodeError = True
+    '                    GoTo loop1
+    '                End If
+    '            End If
+    'nextloop1:
+    '            Mask = Mask >> 1
+    '            If (Mask > 0) Then
+    '                GoTo loop1
+    '            End If
+
+
+    '        Next
+
+    '        Return DecodeText.ToString
+
+    '    End Function
 
     Private Sub OnTitleDecoded()
         titlesDecoded += 1
@@ -3311,14 +3351,14 @@ nextloop1:
                         num6 = (num6 - num12)
                         index = (index + num12)
                         num5 = (num5 - num12)
-                        If Not SDTInfo.ContainsKey(String.Concat(New String() {Conversions.ToString(num7), "-", Conversions.ToString(num11), "-", Conversions.ToString(num10)})) Then
-                            SDTInfo.Add(String.Concat(New String() {Conversions.ToString(num7), "-", Conversions.ToString(num11), "-", Conversions.ToString(num10)}), info)
+                        If Not SDTInfo.ContainsKey(num7 & "-" & num11 & "-" & num10) Then
+                            SDTInfo.Add(num7 & "-" & num11 & "-" & num10, info)
                             SDTCount += 1
                         End If
                         If ((AreAllBouquetsPopulated() AndAlso (SDTCount >= Channels.Count)) AndAlso Not GotAllSDT) Then
                             GotAllSDT = True
                             If (Not OnMessageEvent Is Nothing) Then
-                                RaiseEvent OnMessage(("Got All SDT Info, " & Conversions.ToString(SDTInfo.Count) & " Channels found"), False)
+                                RaiseEvent OnMessage(("Got All SDT Info, " & SDTInfo.Count & " Channels found"), False)
                             End If
                         End If
                     Loop
