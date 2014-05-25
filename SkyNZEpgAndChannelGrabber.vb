@@ -1787,72 +1787,162 @@ Public Class SkyGrabber
         Return channel.Events.Item(eventId)
     End Function
 
+    'Private Sub OnTitleSectionReceived(ByVal pid As Integer, ByVal section As Custom_Data_Grabber.Section)
+    '    Try
+    '        If (Not IsTitleDataCarouselOnPidComplete(pid) AndAlso DoesTidCarryEpgTitleData(section.table_id)) Then
+    '            Dim buffer As Byte() = section.Data
+    '            Dim totallength As Integer = (((buffer(1) And 15) * &H100) + buffer(2)) - 2
+    '            If (section.section_length >= 20) Then
+    '                Dim channelId As Long = (buffer(3) * 256) + buffer(4)
+    '                Dim mjdstart As Long = (buffer(8) * 256) + buffer(9)
+    '                If Not (channelId = 0) Or (mjdstart = 0) Then
+    '                    Dim currenttitleitem As Integer = 10
+    '                    Dim iterationcounter As Integer = 0
+    '                    Do While (currenttitleitem < totallength)
+    '                        If (iterationcounter > 512) Then
+    '                            Return
+    '                        End If
+    '                        iterationcounter += 1
+    '                        Dim eventId As Integer = (buffer(currenttitleitem + 0) * 256) + buffer(currenttitleitem + 1)
+    '                        Dim headerType As Double = (buffer((currenttitleitem + 2) And 240) >> 4)
+    '                        Dim bodyLength As Integer = (buffer((currenttitleitem + 2) And 15) * 256) + buffer(currenttitleitem + 3)
+    '                        Dim titleChannelEventUnionId As String = (channelId.ToString & ":" & eventId.ToString)
+    '                        OnTitleReceived(pid, titleChannelEventUnionId)
+    '                        If IsTitleDataCarouselOnPidComplete(pid) Then
+    '                            Return
+    '                        End If
+    '                        Dim epgEvent As SkyEvent = GetEpgEvent(channelId, eventId)
+    '                        If (epgEvent Is Nothing) Then
+    '                            Return
+    '                        End If
+    '                        epgEvent.mjdStart = mjdstart
+    '                        epgEvent.EventID = eventId
+    '                        Const headerLength As Integer = 4
+    '                        Dim currentTitleItemBody As Integer = (currenttitleitem + headerLength)
+    '                        Dim titleDescriptor As Integer = buffer((currentTitleItemBody + 0))
+    '                        Dim encodedBufferLength As Integer = (buffer((currentTitleItemBody + 1)) - 7)
+    '                        If (titleDescriptor = &HB5) Then
+    '                            epgEvent.StartTime = CInt((CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 2)) * 512)))) Or CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 3)) * 2))))))
+    '                            epgEvent.Duration = CInt((CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 4)) * 512)))) Or CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 5)) * 2))))))
+    '                            Dim themeId As Byte = buffer((currentTitleItemBody + 6))
+    '                            epgEvent.Category = Conversions.ToString(themeId)
+    '                            epgEvent.SetFlags(buffer((currentTitleItemBody + 7)))
+    '                            epgEvent.SetCategory(buffer((currentTitleItemBody + 8)))
+    '                            epgEvent.seriesTermination = (((buffer((currentTitleItemBody + 8)) And &H40) >> 6) Xor 1)
+    '                            If (encodedBufferLength <= 0) Then
+    '                                currenttitleitem = (currenttitleitem + (headerLength + bodyLength))
+    '                            End If
+    '                            If (epgEvent.Title <> "") Then
+    '                                Return
+    '                            End If
+    '                            'Dim huffbuff As Byte() = New Byte(&H1001 - 1) {}
+    '                            'If (((currentTitleItemBody + 9) + encodedBufferLength) > buffer.Length) Then
+    '                            '    Return
+    '                            'End If
+    '                            'Array.Copy(buffer, (currentTitleItemBody + 9), huffbuff, 0, encodedBufferLength)
+    '                            'epgEvent.Title = NewHuffman(huffbuff, encodedBufferLength)
+    '                            'If (epgEvent.Title <> "") Then
+    '                            '    OnTitleDecoded()
+    '                            'End If
+    '                            ''Dim num14 As Integer = CInt(channelId)
+    '                            'UpdateEPGEvent(channelId, epgEvent.EventID, epgEvent)
+    '                            ''channelId = num14
+    '                            Dim huffbuff As Byte() = New Byte(&H1001 - 1) {}
+    '                            If (((currentTitleItemBody + 9) + encodedBufferLength) > buffer.Length) Then
+    '                                Return
+    '                            End If
+    '                            Array.Copy(buffer, (currentTitleItemBody + 9), huffbuff, 0, encodedBufferLength)
+    '                            epgEvent.Title = NewHuffman(huffbuff, encodedBufferLength)
+    '                            Dim title As String = ""
+    '                            If Not epgEvent.Title.StartsWith("[[") Then
+    '                                title = epgEvent.Title
+    '                            Else
+    '                                Dim index As Integer = epgEvent.Title.IndexOf("]")
+    '                                If (((index <> -1) AndAlso (Conversions.ToString(epgEvent.Title.Chars((index + 1))) = "]")) AndAlso ((index + 2) < epgEvent.Title.Length)) Then
+    '                                    title = epgEvent.Title.Substring((index + 2))
+    '                                Else
+    '                                    title = epgEvent.Title
+    '                                End If
+    '                            End If
+    '                            epgEvent.Title = title
+    '                            If (epgEvent.Title <> "") Then
+    '                                OnTitleDecoded()
+    '                            End If
+    '                            Dim num15 As Integer = CInt(channelId)
+    '                            UpdateEPGEvent(num15, epgEvent.EventID, epgEvent)
+    '                            channelId = num15
+    '                        End If
+    '                        currenttitleitem = (currenttitleitem + (bodyLength + headerLength))
+    '                    Loop
+    '                    If (currenttitleitem <> (totallength + 1)) Then
+    '                    End If
+    '                End If
+    '            End If
+    '        End If
+    '    Catch exception1 As Exception
+    '        ProjectData.SetProjectError(exception1)
+    '        Dim exception As Exception = exception1
+    '        If (Not OnMessageEvent Is Nothing) Then
+    '            OnMessageEvent.Invoke(("Error decoding title, " & exception.Message), False)
+    '        End If
+    '        ProjectData.ClearProjectError()
+    '    End Try
+    'End Sub
+
     Private Sub OnTitleSectionReceived(ByVal pid As Integer, ByVal section As Custom_Data_Grabber.Section)
         Try
             If (Not IsTitleDataCarouselOnPidComplete(pid) AndAlso DoesTidCarryEpgTitleData(section.table_id)) Then
-                Dim buffer As Byte() = section.Data
-                Dim totallength As Integer = (((buffer(1) And 15) * &H100) + buffer(2)) - 2
+                Dim data As Byte() = section.Data
+                Dim num5 As Integer = ((((data(1) And 15) * &H100) + data(2)) - 2)
                 If (section.section_length >= 20) Then
-                    Dim channelId As Long = (buffer(3) * 256) + buffer(4)
-                    Dim mjdstart As Long = (buffer(8) * 256) + buffer(9)
-                    If Not (channelId = 0) Or (mjdstart = 0) Then
-                        Dim currenttitleitem As Integer = 10
-                        Dim iterationcounter As Integer = 0
-                        Do While (currenttitleitem < totallength)
-                            If (iterationcounter > 512) Then
+                    Dim channelId As Long = CLng(Math.Round(CDbl(((data(3) * 256) + data(4)))))
+                    Dim num4 As Long = CLng(Math.Round(CDbl(((data(8) * 256) + data(9)))))
+                    If Not ((channelId = 0) Or (num4 = 0)) Then
+                        Dim num2 As Integer = 10
+                        Dim num3 As Integer = 0
+                        Do While (num2 < num5)
+                            If (num3 > &H200) Then
                                 Return
                             End If
-                            iterationcounter += 1
-                            Dim eventId As Integer = (buffer(currenttitleitem + 0) * 256) + buffer(currenttitleitem + 1)
-                            Dim headerType As Double = (buffer((currenttitleitem + 2) And 240) >> 4)
-                            Dim bodyLength As Integer = (buffer((currenttitleitem + 2) And 15) * 256) + buffer(currenttitleitem + 3)
+                            num3 += 1
+                            Dim eventId As Integer = CInt(Math.Round(CDbl(((data((num2 + 0)) * 256) + data((num2 + 1))))))
+                            Dim num11 As Double = ((data((num2 + 2)) And 240) >> 4)
+                            Dim num6 As Integer = CInt(Math.Round(CDbl((((data((num2 + 2)) And 15) * 256) + data((num2 + 3))))))
                             Dim titleChannelEventUnionId As String = (channelId.ToString & ":" & eventId.ToString)
                             OnTitleReceived(pid, titleChannelEventUnionId)
                             If IsTitleDataCarouselOnPidComplete(pid) Then
                                 Return
                             End If
-                            Dim epgEvent As SkyEvent = GetEpgEvent(channelId, eventId)
+                            Dim epgEvent As SkyEvent = Me.GetEpgEvent(channelId, eventId)
                             If (epgEvent Is Nothing) Then
                                 Return
                             End If
-                            epgEvent.mjdStart = mjdstart
+                            epgEvent.mjdStart = num4
                             epgEvent.EventID = eventId
-                            Const headerLength As Integer = 4
-                            Dim currentTitleItemBody As Integer = (currenttitleitem + headerLength)
-                            Dim titleDescriptor As Integer = buffer((currentTitleItemBody + 0))
-                            Dim encodedBufferLength As Integer = (buffer((currentTitleItemBody + 1)) - 7)
-                            If (titleDescriptor = &HB5) Then
-                                epgEvent.StartTime = CInt((CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 2)) * 512)))) Or CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 3)) * 2))))))
-                                epgEvent.Duration = CInt((CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 4)) * 512)))) Or CLng(Math.Round(CDbl((buffer((currentTitleItemBody + 5)) * 2))))))
-                                Dim themeId As Byte = buffer((currentTitleItemBody + 6))
-                                epgEvent.Category = Conversions.ToString(themeId)
-                                epgEvent.SetFlags(buffer((currentTitleItemBody + 7)))
-                                epgEvent.SetCategory(buffer((currentTitleItemBody + 8)))
-                                epgEvent.seriesTermination = (((buffer((currentTitleItemBody + 8)) And &H40) >> 6) Xor 1)
-                                If (encodedBufferLength <= 0) Then
-                                    currenttitleitem = (currenttitleitem + (headerLength + bodyLength))
+                            Dim num10 As Integer = 4
+                            Dim num7 As Integer = (num2 + num10)
+                            Dim num12 As Integer = data((num7 + 0))
+                            Dim length As Integer = (data((num7 + 1)) - 7)
+                            If (num12 = &HB5) Then
+                                epgEvent.StartTime = CInt((CLng(Math.Round(CDbl((data((num7 + 2)) * 512)))) Or CLng(Math.Round(CDbl((data((num7 + 3)) * 2))))))
+                                epgEvent.Duration = CInt((CLng(Math.Round(CDbl((data((num7 + 4)) * 512)))) Or CLng(Math.Round(CDbl((data((num7 + 5)) * 2))))))
+                                Dim num13 As Byte = data((num7 + 6))
+                                epgEvent.Category = Conversions.ToString(num13)
+                                epgEvent.SetFlags(data((num7 + 7)))
+                                epgEvent.SetCategory(data((num7 + 8)))
+                                epgEvent.seriesTermination = (((data((num7 + 8)) And &H40) >> 6) Xor 1)
+                                If (length <= 0) Then
+                                    num2 = (num2 + (num10 + num6))
                                 End If
                                 If (epgEvent.Title <> "") Then
                                     Return
                                 End If
-                                'Dim huffbuff As Byte() = New Byte(&H1001 - 1) {}
-                                'If (((currentTitleItemBody + 9) + encodedBufferLength) > buffer.Length) Then
-                                '    Return
-                                'End If
-                                'Array.Copy(buffer, (currentTitleItemBody + 9), huffbuff, 0, encodedBufferLength)
-                                'epgEvent.Title = NewHuffman(huffbuff, encodedBufferLength)
-                                'If (epgEvent.Title <> "") Then
-                                '    OnTitleDecoded()
-                                'End If
-                                ''Dim num14 As Integer = CInt(channelId)
-                                'UpdateEPGEvent(channelId, epgEvent.EventID, epgEvent)
-                                ''channelId = num14
-                                Dim huffbuff As Byte() = New Byte(&H1001 - 1) {}
-                                If (((currentTitleItemBody + 9) + encodedBufferLength) > buffer.Length) Then
+                                Dim destinationArray As Byte() = New Byte(&H1001 - 1) {}
+                                If (((num7 + 9) + length) > data.Length) Then
                                     Return
                                 End If
-                                Array.Copy(buffer, (currentTitleItemBody + 9), huffbuff, 0, encodedBufferLength)
-                                epgEvent.Title = NewHuffman(huffbuff, encodedBufferLength)
+                                Array.Copy(data, (num7 + 9), destinationArray, 0, length)
+                                epgEvent.Title = NewHuffman(destinationArray, length)
                                 Dim title As String = ""
                                 If Not epgEvent.Title.StartsWith("[[") Then
                                     title = epgEvent.Title
@@ -1872,9 +1962,9 @@ Public Class SkyGrabber
                                 UpdateEPGEvent(num15, epgEvent.EventID, epgEvent)
                                 channelId = num15
                             End If
-                            currenttitleitem = (currenttitleitem + (bodyLength + headerLength))
+                            num2 = (num2 + (num6 + num10))
                         Loop
-                        If (currenttitleitem <> (totallength + 1)) Then
+                        If (num2 <> (num5 + 1)) Then
                         End If
                     End If
                 End If
