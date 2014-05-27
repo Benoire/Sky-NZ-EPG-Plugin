@@ -1,14 +1,9 @@
 ﻿
-Imports System
-Imports System.Collections.Generic
-Imports System.IO
-Imports Microsoft.VisualBasic.CompilerServices
 Imports SetupTv
 Imports TvDatabase
 Imports TvControl
 Imports TvLibrary.Interfaces
 Imports TvLibrary.Log
-Imports Microsoft.VisualBasic
 
 
 Public Class Setup
@@ -1655,14 +1650,13 @@ Public Class Setup
             MpGroupBox2.Invoke(Bool4, param(0))
             Panel3.Invoke(Bool5, param(0))
             Button1.Invoke(Bool6, param(0))
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
-            ProjectData.ClearProjectError()
+        Catch
+
         End Try
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        If Not Settings.IsGrabbing Then
+        If Settings.IsGrabbing = False Then
             listViewStatus.Items.Clear()
             Dim param(0) As Boolean
             param(0) = False
@@ -1673,9 +1667,8 @@ Public Class Setup
                 MpGroupBox2.Invoke(Bool4, param(0))
                 Panel3.Invoke(Bool5, param(0))
                 Button1.Invoke(Bool6, param(0))
-            Catch exception1 As Exception
-                ProjectData.SetProjectError(exception1)
-                ProjectData.ClearProjectError()
+            Catch
+
             End Try
             Grabber.Grab()
         End If
@@ -1686,220 +1679,326 @@ Public Class Setup
         Dim param() As Object = {Message, UpdateLast}
         Try
             listViewStatus.Invoke(Log1, param)
-            If Not UpdateLast Then
+            If UpdateLast = False Then
                 Log.Write("Sky Plugin : " & Message)
             End If
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
-            ProjectData.ClearProjectError()
+
+        Catch
+
         End Try
+
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
+
         Try
-            If CatByte1.Text <> "" And CatByte1.Text <> "0" Then Settings.SetCategory(1, CatByte1.Text, CatText1.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte1.Text <> "" And CatByte1.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte1.Text), CatText1.Text)
+        Catch
             CatByte1.Text = ""
-            ProjectData.ClearProjectError()
         End Try
 
         Try
-            If CatByte2.Text <> "" And CatByte2.Text <> "0" Then Settings.SetCategory(2, CatByte2.Text, CatText2.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte2.Text <> "" And CatByte2.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte2.Text), CatText2.Text)
+        Catch
             CatByte2.Text = ""
-            ProjectData.ClearProjectError()
         End Try
 
         Try
-            If CatByte3.Text <> "" And CatByte3.Text <> "0" Then Settings.SetCategory(3, CatByte3.Text, CatText3.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte3.Text <> "" And CatByte3.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte3.Text), CatText3.Text)
+        Catch
             CatByte3.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte4.Text <> "" And CatByte4.Text <> "0" Then Settings.SetCategory(4, CatByte4.Text, CatText4.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte4.Text <> "" And CatByte4.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte4.Text), CatText4.Text)
+        Catch
             CatByte4.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte5.Text <> "" And CatByte5.Text <> "0" Then Settings.SetCategory(5, CatByte5.Text, CatText5.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte5.Text <> "" And CatByte5.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte5.Text), CatText5.Text)
+        Catch
             CatByte5.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte6.Text <> "" And CatByte6.Text <> "0" Then Settings.SetCategory(6, CatByte6.Text, CatText6.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte6.Text <> "" And CatByte6.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte6.Text), CatText6.Text)
+        Catch
             CatByte6.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte7.Text <> "" And CatByte7.Text <> "0" Then Settings.SetCategory(7, CatByte7.Text, CatText7.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte7.Text <> "" And CatByte7.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte7.Text), CatText7.Text)
+        Catch
             CatByte7.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte8.Text <> "" And CatByte8.Text <> "0" Then Settings.SetCategory(8, CatByte8.Text, CatText8.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte8.Text <> "" And CatByte8.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte8.Text), CatText8.Text)
+        Catch
             CatByte8.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte9.Text <> "" And CatByte9.Text <> "0" Then Settings.SetCategory(9, CatByte9.Text, CatText9.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte9.Text <> "" And CatByte9.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte9.Text), CatText9.Text)
+        Catch
             CatByte9.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte10.Text <> "" And CatByte10.Text <> "0" Then Settings.SetCategory(10, CatByte10.Text, CatText10.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte10.Text <> "" And CatByte10.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte10.Text), CatText10.Text)
+        Catch
             CatByte10.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte11.Text <> "" And CatByte11.Text <> "0" Then Settings.SetCategory(11, CatByte11.Text, CatText11.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte11.Text <> "" And CatByte11.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte11.Text), CatText11.Text)
+        Catch
             CatByte11.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte12.Text <> "" And CatByte12.Text <> "0" Then Settings.SetCategory(12, CatByte12.Text, Me.CatText12.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte12.Text <> "" And CatByte12.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte12.Text), CatText12.Text)
+        Catch
             CatByte12.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte13.Text <> "" And CatByte13.Text <> "0" Then Settings.SetCategory(13, CatByte13.Text, CatText13.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte13.Text <> "" And CatByte13.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte13.Text), CatText13.Text)
+        Catch
             CatByte13.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte14.Text <> "" And CatByte14.Text <> "0" Then Settings.SetCategory(14, CatByte14.Text, CatText14.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte14.Text <> "" And CatByte14.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte14.Text), CatText14.Text)
+        Catch
             CatByte14.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte15.Text <> "" And CatByte15.Text <> "0" Then Settings.SetCategory(15, CatByte15.Text, CatText15.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte15.Text <> "" And CatByte15.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte15.Text), CatText15.Text)
+        Catch
             CatByte15.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte16.Text <> "" And CatByte16.Text <> "0" Then Settings.SetCategory(16, CatByte16.Text, CatText16.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte16.Text <> "" And CatByte16.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte16.Text), CatText16.Text)
+        Catch
             CatByte16.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte17.Text <> "" And CatByte17.Text <> "0" Then Settings.SetCategory(17, CatByte17.Text, CatText17.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte17.Text <> "" And CatByte17.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte17.Text), CatText17.Text)
+        Catch
             CatByte17.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte18.Text <> "" And CatByte18.Text <> "0" Then Settings.SetCategory(18, CatByte18.Text, CatText18.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte18.Text <> "" And CatByte18.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte18.Text), CatText18.Text)
+        Catch
             CatByte18.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte19.Text <> "" And CatByte19.Text <> "0" Then Settings.SetCategory(19, CatByte19.Text, CatText19.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte19.Text <> "" And CatByte19.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte19.Text), CatText19.Text)
+        Catch
             CatByte19.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         Try
-            If CatByte20.Text <> "" And CatByte20.Text <> "0" Then Settings.SetCategory(20, CatByte20.Text, CatText20.Text)
-        Catch exception1 As Exception
-            ProjectData.SetProjectError(exception1)
+            If CatByte20.Text <> "" And CatByte20.Text <> "0" Then Settings.SetCategory(Convert.ToInt32(CatByte20.Text), CatText20.Text)
+        Catch
             CatByte20.Text = ""
-            ProjectData.ClearProjectError()
         End Try
         SaveCatSettings()
     End Sub
 
-    Public Sub LoadSetting()
-        Dim layer As New TvBusinessLayer
-        Dim str As String
-        Dim str2 As String
-        If Not Settings.SettingsLoaded Then
-            Settings.LoadSettings()
-        End If
-        Settings.IsLoading = True
-        ChannelMap.Items.Clear()
-        Dim card As Card
-        For Each card In card.ListAll
-            Try
-                If ((RemoteControl.Instance.Type(card.IdCard) = CardType.DvbS) AndAlso Not ChannelMap.Items.Contains(card.Name)) Then
-                    ChannelMap.Items.Add(card.Name)
-                End If
-            Catch exception1 As Exception
-                ProjectData.SetProjectError(exception1)
-                ProjectData.ClearProjectError()
-            End Try
+    Sub LoadSetting()
+        Dim layer As New TvBusinessLayer()
+        Dim id As Integer = -1
+        Dim checker As Integer = 0
+        For Each card_1 As Card In Card.ListAll()
+            If RemoteControl.Instance.Type(card_1.IdCard) = CardType.DvbS Then
+                ChannelMap.Items.Add(card_1.Name)
+            End If
         Next
-        Dim cardMap As List(Of Integer) = Settings.CardMap
-        If cardMap.Count > 0 And ChannelMap.Items.Count > 0 Then
-            Dim num4 As Integer
-            For Each num4 In cardMap
+        Settings.IsLoading = True
+        Dim listofmap As List(Of Integer) = Settings.CardMap
+        If listofmap.Count > 0 And ChannelMap.Items.Count > 0 Then
+            For Each num In listofmap
                 Try
-                    ChannelMap.SetItemChecked(num4, True)
-                Catch exception3 As Exception
-                    ProjectData.SetProjectError(exception3)
-                    ProjectData.ClearProjectError()
+                    ChannelMap.SetItemChecked(num, True)
+                Catch ex As Exception
+
                 End Try
             Next
         End If
         Settings.IsLoading = False
         layer = Nothing
 
-        Dim reader As New StringReader(My.Settings.Regions)
-        Dim list2 As New List(Of String)
-        Dim str4 As String
-        For Each str4 In My.Settings.Regions.Split(vbNewLine)
-            If Not list2.Contains(str4) Then
-                list2.Add(str4)
-            End If
+        Dim rr As New IO.StringReader(My.Settings.Regions)
+        Dim ttt As New List(Of String)
+        Dim lines() As String = My.Settings.Regions.Split(vbNewLine)
+        For Each str As String In lines
+            ttt.Add(str)
         Next
-        Dim key As Integer = -1
-        Dim str5 As String
-        For Each str5 In list2
-            key += 1
-            Dim strArray3 As String() = New String(3 - 1) {}
-            Dim strArray4 As String() = New String(3 - 1) {}
-            strArray3 = str5.Split("=")
-            If Not SkyUK_Region.Items.Contains(strArray3(1)) Then
-                SkyUK_Region.Items.Add(strArray3(1))
-            End If
-            strArray4 = strArray3(0).Split("-")
-            Dim region As New Region With {.BouquetID = Val(strArray4(0)), .RegionID = Val(strArray4(1))}
-            If Not regions.ContainsKey(key) Then
-                regions.Add(key, [region])
-            End If
+
+        Dim trt As Integer = -1
+        For Each yt As String In ttt
+            trt += 1
+            Dim split(2) As String
+            Dim Split2(2) As String
+            split = yt.Split("=")
+            SkyUK_Region.Items.Add(split(1))
+            Split2 = split(0).Split("-")
+            Dim bad As New Region
+            bad.BouquetID = Val(Split2(0))
+            bad.RegionID = Val(Split2(1))
+            regions.Add(trt, bad)
         Next
+
+        If Settings.GetSkySetting(CatByte1.Name, CatByte1.Text) = "-1" Then
+            CatByte1.Text = ""
+            CatText1.Text = ""
+        Else
+            CatByte1.Text = Settings.GetSkySetting(CatByte1.Name, "-1")
+            CatText1.Text = Settings.GetSkySetting(CatText1.Name, CatText1.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte2.Name, CatByte2.Text) = "-1" Then
+            CatByte2.Text = ""
+            CatText2.Text = ""
+        Else
+            CatByte2.Text = Settings.GetSkySetting(CatByte2.Name, "-1")
+            CatText2.Text = Settings.GetSkySetting(CatText2.Name, CatText2.Text)
+        End If
+
+
+        If Settings.GetSkySetting(CatByte3.Name, CatByte3.Text) = "-1" Then
+            CatByte3.Text = ""
+            CatText3.Text = ""
+        Else
+            CatByte3.Text = Settings.GetSkySetting(CatByte3.Name, "-1")
+            CatText3.Text = Settings.GetSkySetting(CatText3.Name, CatText3.Text)
+        End If
+        If Settings.GetSkySetting(CatByte4.Name, CatByte4.Text) = "-1" Then
+            CatByte4.Text = ""
+            CatText4.Text = ""
+        Else
+            CatByte4.Text = Settings.GetSkySetting(CatByte4.Name, "-1")
+            CatText4.Text = Settings.GetSkySetting(CatText4.Name, CatText4.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte5.Name, CatByte5.Text) = "-1" Then
+            CatByte5.Text = ""
+            CatText5.Text = ""
+        Else
+            CatByte5.Text = Settings.GetSkySetting(CatByte5.Name, "-1")
+            CatText5.Text = Settings.GetSkySetting(CatText5.Name, CatText5.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte6.Name, CatByte6.Text) = "-1" Then
+            CatByte6.Text = ""
+            CatText6.Text = ""
+        Else
+            CatByte6.Text = Settings.GetSkySetting(CatByte6.Name, "-1")
+            CatText6.Text = Settings.GetSkySetting(CatText6.Name, CatText6.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte7.Name, CatByte7.Text) = "-1" Then
+            CatByte7.Text = ""
+            CatText7.Text = ""
+        Else
+            CatByte7.Text = Settings.GetSkySetting(CatByte7.Name, "-1")
+            CatText7.Text = Settings.GetSkySetting(CatText7.Name, CatText7.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte8.Name, CatByte8.Text) = "-1" Then
+            CatByte8.Text = ""
+            CatText8.Text = ""
+        Else
+            CatByte8.Text = Settings.GetSkySetting(CatByte8.Name, "-1")
+            CatText8.Text = Settings.GetSkySetting(CatText8.Name, CatText8.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte9.Name, CatByte9.Text) = "-1" Then
+            CatByte9.Text = ""
+            CatText9.Text = ""
+        Else
+            CatByte9.Text = Settings.GetSkySetting(CatByte9.Name, "-1")
+            CatText9.Text = Settings.GetSkySetting(CatText9.Name, CatText9.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte10.Name, CatByte10.Text) = "-1" Then
+            CatByte10.Text = ""
+            CatText10.Text = ""
+        Else
+            CatByte10.Text = Settings.GetSkySetting(CatByte10.Name, "-1")
+            CatText10.Text = Settings.GetSkySetting(CatText10.Name, CatText10.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte11.Name, CatByte11.Text) = "-1" Then
+            CatByte11.Text = ""
+            CatText11.Text = ""
+        Else
+            CatByte11.Text = Settings.GetSkySetting(CatByte11.Name, "-1")
+            CatText11.Text = Settings.GetSkySetting(CatText11.Name, CatText11.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte12.Name, CatByte12.Text) = "-1" Then
+            CatByte12.Text = ""
+            CatText12.Text = ""
+        Else
+            CatByte12.Text = Settings.GetSkySetting(CatByte12.Name, "-1")
+            CatText12.Text = Settings.GetSkySetting(CatText12.Name, CatText12.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte13.Name, CatByte13.Text) = "-1" Then
+            CatByte13.Text = ""
+            CatText13.Text = ""
+        Else
+            CatByte13.Text = Settings.GetSkySetting(CatByte13.Name, "-1")
+            CatText13.Text = Settings.GetSkySetting(CatText13.Name, CatText13.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte14.Name, CatByte14.Text) = "-1" Then
+            CatByte14.Text = ""
+            CatText14.Text = ""
+        Else
+            CatByte14.Text = Settings.GetSkySetting(CatByte14.Name, "-1")
+            CatText14.Text = Settings.GetSkySetting(CatText14.Name, CatText14.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte15.Name, CatByte15.Text) = "-1" Then
+            CatByte15.Text = ""
+            CatText15.Text = ""
+        Else
+            CatByte15.Text = Settings.GetSkySetting(CatByte15.Name, "-1")
+            CatText15.Text = Settings.GetSkySetting(CatText15.Name, CatText15.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte16.Name, CatByte16.Text) = "-1" Then
+            CatByte16.Text = ""
+            CatText16.Text = ""
+        Else
+            CatByte16.Text = Settings.GetSkySetting(CatByte16.Name, "-1")
+            CatText16.Text = Settings.GetSkySetting(CatText16.Name, CatText16.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte17.Name, CatByte17.Text) = "-1" Then
+            CatByte17.Text = ""
+            CatText17.Text = ""
+        Else
+            CatByte17.Text = Settings.GetSkySetting(CatByte17.Name, "-1")
+            CatText17.Text = Settings.GetSkySetting(CatText17.Name, CatText17.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte18.Name, CatByte18.Text) = "-1" Then
+            CatByte18.Text = ""
+            CatText18.Text = ""
+        Else
+            CatByte18.Text = Settings.GetSkySetting(CatByte18.Name, "-1")
+            CatText18.Text = Settings.GetSkySetting(CatText18.Name, CatText18.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte19.Name, CatByte19.Text) = "-1" Then
+            CatByte19.Text = ""
+            CatText19.Text = ""
+        Else
+            CatByte19.Text = Settings.GetSkySetting(CatByte19.Name, "-1")
+            CatText19.Text = Settings.GetSkySetting(CatText19.Name, CatText19.Text)
+        End If
+
+        If Settings.GetSkySetting(CatByte20.Name, CatByte20.Text) = "-1" Then
+            CatByte20.Text = ""
+            CatText20.Text = ""
+        Else
+            CatByte20.Text = Settings.GetSkySetting(CatByte20.Name, "-1")
+            CatText20.Text = Settings.GetSkySetting(CatText20.Name, CatText20.Text)
+        End If
         TextBox6.Text = Settings.frequency
         chk_AutoUpdate.Checked = Settings.UpdateChannels
         chk_SkyNumbers.Checked = Settings.UseSkyNumbers
@@ -1909,6 +2008,7 @@ Public Class Setup
         chk_MoveOld.Checked = Not Settings.DeleteOldChannels
         CheckBox1.Checked = Settings.ReplaceSDwithHD
         CheckBox2.Checked = Settings.UpdateEPG
+        'TextBox1.Text = Settings.SwitchingFrequency
         txt_Move_Old_Group.Text = Settings.OldChannelFolder
         SkyUK_Region.SelectedIndex = Settings.RegionIndex
         Settings.RegionIndex = SkyUK_Region.SelectedIndex
@@ -1916,19 +2016,17 @@ Public Class Setup
         TextBox5.Text = Settings.TransportID
         TextBox4.Text = Settings.ServiceID
         mpDisEqc1.SelectedIndex = Settings.DiseqC
-        If (mpDisEqc1.SelectedIndex = -1) Then
+        If mpDisEqc1.SelectedIndex = -1 Then
             mpDisEqc1.SelectedIndex = 0
             Settings.DiseqC = 0
         End If
         MpComboBox2.SelectedIndex = Settings.polarisation
-        If (MpComboBox2.SelectedIndex = -1) Then
+        If MpComboBox2.SelectedIndex = -1 Then
             MpComboBox2.SelectedIndex = 0
             Settings.polarisation = 0
         End If
-        'CheckBox10.Checked = Settings.UpdateLogos
-        'CheckBox11.Checked = Settings.UseThrottle
         MpComboBox1.SelectedIndex = Settings.modulation
-        If (MpComboBox1.SelectedIndex = -1) Then
+        If MpComboBox1.SelectedIndex = -1 Then
             MpComboBox1.SelectedIndex = 0
             Settings.modulation = 0
         End If
@@ -1936,20 +2034,19 @@ Public Class Setup
         CheckBox4.Checked = Settings.AutoUpdate
         CheckBox5.Checked = Settings.EveryHour
         CheckBox6.Checked = Settings.OnDaysAt
-        If (Settings.UpdateInterval = 0) Then
+        If Settings.UpdateInterval = 0 Then
             Settings.UpdateInterval = 1
         End If
         CheckBox3.Checked = Settings.useExtraInfo
         CheckBox7.Checked = Settings.UseNotSetModSD
         CheckBox9.Checked = Settings.UseNotSetModHD
         CheckBox8.Checked = Settings.IgnoreScrambled
-        'CheckBox10.Checked = Settings.UpdateLogos
-        'CheckBox11.Checked = Settings.UseThrottle
-        NumericUpDown2.Value = New Decimal(Settings.GrabTime)
-        NumericUpDown1.Value = New Decimal(Settings.UpdateInterval)
+
+        NumericUpDown2.Value = Settings.GrabTime
+        NumericUpDown1.Value = Settings.UpdateInterval
         Panel1.Visible = Settings.AutoUpdate
         DateTimePicker1.Value = Settings.UpdateTime
-        'TextBox2.Text = Settings.LogoDirectory
+
         Mon.Checked = Settings.Mon
         Tue.Checked = Settings.Tue
         Wed.Checked = Settings.Wed
@@ -1957,529 +2054,28 @@ Public Class Setup
         Fri.Checked = Settings.Fri
         Sat.Checked = Settings.Sat
         Sun.Checked = Settings.Sun
-        Dim separator As String() = New String() {",.,"}
-        Dim categoryByTextBoxNum As String = Settings.GetCategoryByTextBoxNum(1)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray5 As String() = New String(3 - 1) {}
-            strArray5 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray5(0)
-            str2 = strArray5(1)
-        End If
-        CatByte1.Text = str
-        CatText1.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(2)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray6 As String() = New String(3 - 1) {}
-            strArray6 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray6(0)
-            str2 = strArray6(1)
-        End If
-        CatByte2.Text = str
-        CatText2.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(3)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray7 As String() = New String(3 - 1) {}
-            strArray7 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray7(0)
-            str2 = strArray7(1)
-        End If
-        CatByte3.Text = str
-        CatText3.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(4)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray8 As String() = New String(3 - 1) {}
-            strArray8 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray8(0)
-            str2 = strArray8(1)
-        End If
-        CatByte4.Text = str
-        CatText4.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(5)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray9 As String() = New String(3 - 1) {}
-            strArray9 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray9(0)
-            str2 = strArray9(1)
-        End If
-        CatByte5.Text = str
-        CatText5.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(6)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray10 As String() = New String(3 - 1) {}
-            strArray10 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray10(0)
-            str2 = strArray10(1)
-        End If
-        CatByte6.Text = str
-        CatText6.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(7)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray11 As String() = New String(3 - 1) {}
-            strArray11 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray11(0)
-            str2 = strArray11(1)
-        End If
-        CatByte7.Text = str
-        CatText7.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(8)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray12 As String() = New String(3 - 1) {}
-            strArray12 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray12(0)
-            str2 = strArray12(1)
-        End If
-        CatByte8.Text = str
-        CatText8.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(9)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray13 As String() = New String(3 - 1) {}
-            strArray13 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray13(0)
-            str2 = strArray13(1)
-        End If
-        CatByte9.Text = str
-        CatText9.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(10)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray14 As String() = New String(3 - 1) {}
-            strArray14 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray14(0)
-            str2 = strArray14(1)
-        End If
-        CatByte10.Text = str
-        CatText10.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(11)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray15 As String() = New String(3 - 1) {}
-            strArray15 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray15(0)
-            str2 = strArray15(1)
-        End If
-        CatByte11.Text = str
-        CatText11.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(12)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray16 As String() = New String(3 - 1) {}
-            strArray16 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray16(0)
-            str2 = strArray16(1)
-        End If
-        CatByte12.Text = str
-        CatText12.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(13)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray17 As String() = New String(3 - 1) {}
-            strArray17 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray17(0)
-            str2 = strArray17(1)
-        End If
-        CatByte13.Text = str
-        CatText13.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(14)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray18 As String() = New String(3 - 1) {}
-            strArray18 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray18(0)
-            str2 = strArray18(1)
-        End If
-        CatByte14.Text = str
-        CatText14.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(15)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray19 As String() = New String(3 - 1) {}
-            strArray19 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray19(0)
-            str2 = strArray19(1)
-        End If
-        CatByte15.Text = str
-        CatText15.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(&H10)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray20 As String() = New String(3 - 1) {}
-            strArray20 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray20(0)
-            str2 = strArray20(1)
-        End If
-        CatByte16.Text = str
-        CatText16.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(&H11)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray21 As String() = New String(3 - 1) {}
-            strArray21 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray21(0)
-            str2 = strArray21(1)
-        End If
-        CatByte17.Text = str
-        CatText17.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(&H12)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray22 As String() = New String(3 - 1) {}
-            strArray22 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray22(0)
-            str2 = strArray22(1)
-        End If
-        CatByte18.Text = str
-        CatText18.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(&H13)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray23 As String() = New String(3 - 1) {}
-            strArray23 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray23(0)
-            str2 = strArray23(1)
-        End If
-        CatByte19.Text = str
-        CatText19.Text = str2
-        categoryByTextBoxNum = Settings.GetCategoryByTextBoxNum(20)
-        If (categoryByTextBoxNum = "-1,., ") Then
-            str = ""
-            str2 = ""
-        Else
-            Dim strArray24 As String() = New String(3 - 1) {}
-            strArray24 = categoryByTextBoxNum.Split(separator, StringSplitOptions.None)
-            str = strArray24(0)
-            str2 = strArray24(1)
-        End If
-        CatByte20.Text = str
-        CatText20.Text = str2
-        Settings.IsLoading = False
+
+        If CatByte1.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte1.Text), CatText1.Text)
+        If CatByte2.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte2.Text), CatText2.Text)
+        If CatByte3.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte3.Text), CatText3.Text)
+        If CatByte8.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte8.Text), CatText8.Text)
+        If CatByte4.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte4.Text), CatText4.Text)
+        If CatByte5.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte5.Text), CatText5.Text)
+        If CatByte6.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte6.Text), CatText6.Text)
+        If CatByte10.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte10.Text), CatText10.Text)
+        If CatByte7.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte7.Text), CatText7.Text)
+        If CatByte9.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte9.Text), CatText9.Text)
+        If CatByte11.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte11.Text), CatText11.Text)
+        If CatByte12.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte12.Text), CatText12.Text)
+        If CatByte13.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte13.Text), CatText13.Text)
+        If CatByte14.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte14.Text), CatText14.Text)
+        If CatByte15.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte15.Text), CatText15.Text)
+        If CatByte16.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte16.Text), CatText16.Text)
+        If CatByte17.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte17.Text), CatText17.Text)
+        If CatByte18.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte18.Text), CatText18.Text)
+        If CatByte19.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte19.Text), CatText19.Text)
+        If CatByte20.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte11.Text), CatText20.Text)
     End Sub
-    'Sub LoadSetting()
-    '    Dim layer As New TvBusinessLayer()
-    '    Dim id As Integer = -1
-    '    Dim checker As Integer = 0
-    '    For Each card_1 As Card In Card.ListAll()
-    '        If RemoteControl.Instance.Type(card_1.IdCard) = CardType.DvbS Then
-    '            ChannelMap.Items.Add(card_1.Name)
-    '        End If
-    '    Next
-    '    Settings.IsLoading = True
-    '    Dim listofmap As List(Of Integer) = Settings.CardMap
-    '    If listofmap.Count > 0 And ChannelMap.Items.Count > 0 Then
-    '        For Each num In listofmap
-    '            Try
-    '                ChannelMap.SetItemChecked(num, True)
-    '            Catch ex As Exception
-
-    '            End Try
-    '        Next
-    '    End If
-    '    Settings.IsLoading = False
-    '    layer = Nothing
-
-    '    Dim rr As New IO.StringReader(My.Settings.Regions)
-    '    Dim ttt As New List(Of String)
-    '    Dim lines() As String = My.Settings.Regions.Split(vbNewLine)
-    '    For Each str As String In lines
-    '        ttt.Add(str)
-    '    Next
-
-    '    Dim trt As Integer = -1
-    '    For Each yt As String In ttt
-    '        trt += 1
-    '        Dim split(2) As String
-    '        Dim Split2(2) As String
-    '        split = yt.Split("=")
-    '        SkyUK_Region.Items.Add(split(1))
-    '        Split2 = split(0).Split("-")
-    '        Dim bad As New Region
-    '        bad.BouquetID = Val(Split2(0))
-    '        bad.RegionID = Val(Split2(1))
-    '        regions.Add(trt, bad)
-    '    Next
-
-    '    If Settings.GetSkySetting(CatByte1.Name, CatByte1.Text) = "-1" Then
-    '        CatByte1.Text = ""
-    '        CatText1.Text = ""
-    '    Else
-    '        CatByte1.Text = Settings.GetSkySetting(CatByte1.Name, "-1")
-    '        CatText1.Text = Settings.GetSkySetting(CatText1.Name, CatText1.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte2.Name, CatByte2.Text) = "-1" Then
-    '        CatByte2.Text = ""
-    '        CatText2.Text = ""
-    '    Else
-    '        CatByte2.Text = Settings.GetSkySetting(CatByte2.Name, "-1")
-    '        CatText2.Text = Settings.GetSkySetting(CatText2.Name, CatText2.Text)
-    '    End If
-
-
-    '    If Settings.GetSkySetting(CatByte3.Name, CatByte3.Text) = "-1" Then
-    '        CatByte3.Text = ""
-    '        CatText3.Text = ""
-    '    Else
-    '        CatByte3.Text = Settings.GetSkySetting(CatByte3.Name, "-1")
-    '        CatText3.Text = Settings.GetSkySetting(CatText3.Name, CatText3.Text)
-    '    End If
-    '    If Settings.GetSkySetting(CatByte4.Name, CatByte4.Text) = "-1" Then
-    '        CatByte4.Text = ""
-    '        CatText4.Text = ""
-    '    Else
-    '        CatByte4.Text = Settings.GetSkySetting(CatByte4.Name, "-1")
-    '        CatText4.Text = Settings.GetSkySetting(CatText4.Name, CatText4.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte5.Name, CatByte5.Text) = "-1" Then
-    '        CatByte5.Text = ""
-    '        CatText5.Text = ""
-    '    Else
-    '        CatByte5.Text = Settings.GetSkySetting(CatByte5.Name, "-1")
-    '        CatText5.Text = Settings.GetSkySetting(CatText5.Name, CatText5.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte6.Name, CatByte6.Text) = "-1" Then
-    '        CatByte6.Text = ""
-    '        CatText6.Text = ""
-    '    Else
-    '        CatByte6.Text = Settings.GetSkySetting(CatByte6.Name, "-1")
-    '        CatText6.Text = Settings.GetSkySetting(CatText6.Name, CatText6.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte7.Name, CatByte7.Text) = "-1" Then
-    '        CatByte7.Text = ""
-    '        CatText7.Text = ""
-    '    Else
-    '        CatByte7.Text = Settings.GetSkySetting(CatByte7.Name, "-1")
-    '        CatText7.Text = Settings.GetSkySetting(CatText7.Name, CatText7.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte8.Name, CatByte8.Text) = "-1" Then
-    '        CatByte8.Text = ""
-    '        CatText8.Text = ""
-    '    Else
-    '        CatByte8.Text = Settings.GetSkySetting(CatByte8.Name, "-1")
-    '        CatText8.Text = Settings.GetSkySetting(CatText8.Name, CatText8.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte9.Name, CatByte9.Text) = "-1" Then
-    '        CatByte9.Text = ""
-    '        CatText9.Text = ""
-    '    Else
-    '        CatByte9.Text = Settings.GetSkySetting(CatByte9.Name, "-1")
-    '        CatText9.Text = Settings.GetSkySetting(CatText9.Name, CatText9.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte10.Name, CatByte10.Text) = "-1" Then
-    '        CatByte10.Text = ""
-    '        CatText10.Text = ""
-    '    Else
-    '        CatByte10.Text = Settings.GetSkySetting(CatByte10.Name, "-1")
-    '        CatText10.Text = Settings.GetSkySetting(CatText10.Name, CatText10.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte11.Name, CatByte11.Text) = "-1" Then
-    '        CatByte11.Text = ""
-    '        CatText11.Text = ""
-    '    Else
-    '        CatByte11.Text = Settings.GetSkySetting(CatByte11.Name, "-1")
-    '        CatText11.Text = Settings.GetSkySetting(CatText11.Name, CatText11.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte12.Name, CatByte12.Text) = "-1" Then
-    '        CatByte12.Text = ""
-    '        CatText12.Text = ""
-    '    Else
-    '        CatByte12.Text = Settings.GetSkySetting(CatByte12.Name, "-1")
-    '        CatText12.Text = Settings.GetSkySetting(CatText12.Name, CatText12.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte13.Name, CatByte13.Text) = "-1" Then
-    '        CatByte13.Text = ""
-    '        CatText13.Text = ""
-    '    Else
-    '        CatByte13.Text = Settings.GetSkySetting(CatByte13.Name, "-1")
-    '        CatText13.Text = Settings.GetSkySetting(CatText13.Name, CatText13.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte14.Name, CatByte14.Text) = "-1" Then
-    '        CatByte14.Text = ""
-    '        CatText14.Text = ""
-    '    Else
-    '        CatByte14.Text = Settings.GetSkySetting(CatByte14.Name, "-1")
-    '        CatText14.Text = Settings.GetSkySetting(CatText14.Name, CatText14.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte15.Name, CatByte15.Text) = "-1" Then
-    '        CatByte15.Text = ""
-    '        CatText15.Text = ""
-    '    Else
-    '        CatByte15.Text = Settings.GetSkySetting(CatByte15.Name, "-1")
-    '        CatText15.Text = Settings.GetSkySetting(CatText15.Name, CatText15.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte16.Name, CatByte16.Text) = "-1" Then
-    '        CatByte16.Text = ""
-    '        CatText16.Text = ""
-    '    Else
-    '        CatByte16.Text = Settings.GetSkySetting(CatByte16.Name, "-1")
-    '        CatText16.Text = Settings.GetSkySetting(CatText16.Name, CatText16.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte17.Name, CatByte17.Text) = "-1" Then
-    '        CatByte17.Text = ""
-    '        CatText17.Text = ""
-    '    Else
-    '        CatByte17.Text = Settings.GetSkySetting(CatByte17.Name, "-1")
-    '        CatText17.Text = Settings.GetSkySetting(CatText17.Name, CatText17.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte18.Name, CatByte18.Text) = "-1" Then
-    '        CatByte18.Text = ""
-    '        CatText18.Text = ""
-    '    Else
-    '        CatByte18.Text = Settings.GetSkySetting(CatByte18.Name, "-1")
-    '        CatText18.Text = Settings.GetSkySetting(CatText18.Name, CatText18.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte19.Name, CatByte19.Text) = "-1" Then
-    '        CatByte19.Text = ""
-    '        CatText19.Text = ""
-    '    Else
-    '        CatByte19.Text = Settings.GetSkySetting(CatByte19.Name, "-1")
-    '        CatText19.Text = Settings.GetSkySetting(CatText19.Name, CatText19.Text)
-    '    End If
-
-    '    If Settings.GetSkySetting(CatByte20.Name, CatByte20.Text) = "-1" Then
-    '        CatByte20.Text = ""
-    '        CatText20.Text = ""
-    '    Else
-    '        CatByte20.Text = Settings.GetSkySetting(CatByte20.Name, "-1")
-    '        CatText20.Text = Settings.GetSkySetting(CatText20.Name, CatText20.Text)
-    '    End If
-    '    TextBox6.Text = Settings.frequency
-    '    chk_AutoUpdate.Checked = Settings.UpdateChannels
-    '    chk_SkyNumbers.Checked = Settings.UseSkyNumbers
-    '    chk_SkyCategories.Checked = Settings.UseSkyCategories
-    '    chk_SkyRegions.Checked = Settings.UseSkyRegions
-    '    chk_DeleteOld.Checked = Settings.DeleteOldChannels
-    '    chk_MoveOld.Checked = Not Settings.DeleteOldChannels
-    '    CheckBox1.Checked = Settings.ReplaceSDwithHD
-    '    CheckBox2.Checked = Settings.UpdateEPG
-    '    'TextBox1.Text = Settings.SwitchingFrequency
-    '    txt_Move_Old_Group.Text = Settings.OldChannelFolder
-    '    SkyUK_Region.SelectedIndex = Settings.RegionIndex
-    '    Settings.RegionIndex = SkyUK_Region.SelectedIndex
-    '    TextBox10.Text = Settings.SymbolRate
-    '    TextBox5.Text = Settings.TransportID
-    '    TextBox4.Text = Settings.ServiceID
-    '    mpDisEqc1.SelectedIndex = Settings.DiseqC
-    '    If mpDisEqc1.SelectedIndex = -1 Then
-    '        mpDisEqc1.SelectedIndex = 0
-    '        Settings.DiseqC = 0
-    '    End If
-    '    MpComboBox2.SelectedIndex = Settings.polarisation
-    '    If MpComboBox2.SelectedIndex = -1 Then
-    '        MpComboBox2.SelectedIndex = 0
-    '        Settings.polarisation = 0
-    '    End If
-    '    MpComboBox1.SelectedIndex = Settings.modulation
-    '    If MpComboBox1.SelectedIndex = -1 Then
-    '        MpComboBox1.SelectedIndex = 0
-    '        Settings.modulation = 0
-    '    End If
-    '    TextBox6.Text = Settings.frequency
-    '    CheckBox4.Checked = Settings.AutoUpdate
-    '    CheckBox5.Checked = Settings.EveryHour
-    '    CheckBox6.Checked = Settings.OnDaysAt
-    '    If Settings.UpdateInterval = 0 Then
-    '        Settings.UpdateInterval = 1
-    '    End If
-    '    CheckBox3.Checked = Settings.useExtraInfo
-    '    CheckBox7.Checked = Settings.UseNotSetModSD
-    '    CheckBox9.Checked = Settings.UseNotSetModHD
-    '    CheckBox8.Checked = Settings.IgnoreScrambled
-
-    '    NumericUpDown2.Value = Settings.GrabTime
-    '    NumericUpDown1.Value = Settings.UpdateInterval
-    '    Panel1.Visible = Settings.AutoUpdate
-    '    DateTimePicker1.Value = Settings.UpdateTime
-
-    '    Mon.Checked = Settings.Mon
-    '    Tue.Checked = Settings.Tue
-    '    Wed.Checked = Settings.Wed
-    '    Thu.Checked = Settings.Thu
-    '    Fri.Checked = Settings.Fri
-    '    Sat.Checked = Settings.Sat
-    '    Sun.Checked = Settings.Sun
-
-    '    If CatByte1.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte1.Text), CatText1.Text)
-    '    If CatByte2.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte2.Text), CatText2.Text)
-    '    If CatByte3.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte3.Text), CatText3.Text)
-    '    If CatByte8.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte8.Text), CatText8.Text)
-    '    If CatByte4.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte4.Text), CatText4.Text)
-    '    If CatByte5.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte5.Text), CatText5.Text)
-    '    If CatByte6.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte6.Text), CatText6.Text)
-    '    If CatByte10.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte10.Text), CatText10.Text)
-    '    If CatByte7.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte7.Text), CatText7.Text)
-    '    If CatByte9.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte9.Text), CatText9.Text)
-    '    If CatByte11.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte11.Text), CatText11.Text)
-    '    If CatByte12.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte12.Text), CatText12.Text)
-    '    If CatByte13.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte13.Text), CatText13.Text)
-    '    If CatByte14.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte14.Text), CatText14.Text)
-    '    If CatByte15.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte15.Text), CatText15.Text)
-    '    If CatByte16.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte16.Text), CatText16.Text)
-    '    If CatByte17.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte17.Text), CatText17.Text)
-    '    If CatByte18.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte18.Text), CatText18.Text)
-    '    If CatByte19.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte19.Text), CatText19.Text)
-    '    If CatByte20.Text <> "" Then Settings.SetCategory(Convert.ToInt32(CatByte11.Text), CatText20.Text)
-    'End Sub
 
     Sub SaveCatSettings()
 
@@ -2917,25 +2513,25 @@ Public Class Setup
 
 End Class
 
-'Public Class Region
+Public Class Region
 
-'    Dim _BouquetID As Integer
-'    Dim _RegionID As Integer
-'    Public Property BouquetID() As Integer
-'        Get
-'            Return _BouquetID
-'        End Get
-'        Set(ByVal value As Integer)
-'            _BouquetID = value
-'        End Set
-'    End Property
+    Dim _BouquetID As Integer
+    Dim _RegionID As Integer
+    Public Property BouquetID() As Integer
+        Get
+            Return _BouquetID
+        End Get
+        Set(ByVal value As Integer)
+            _BouquetID = value
+        End Set
+    End Property
 
-'    Public Property RegionID() As Integer
-'        Get
-'            Return _RegionID
-'        End Get
-'        Set(ByVal value As Integer)
-'            _RegionID = value
-'        End Set
-'    End Property
-'End Class
+    Public Property RegionID() As Integer
+        Get
+            Return _RegionID
+        End Get
+        Set(ByVal value As Integer)
+            _RegionID = value
+        End Set
+    End Property
+End Class

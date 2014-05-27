@@ -39,7 +39,7 @@ Namespace My.Resources
         Friend ReadOnly Property ResourceManager() As Global.System.Resources.ResourceManager
             Get
                 If Object.ReferenceEquals(resourceMan, Nothing) Then
-                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("Resources", GetType(Resources).Assembly)
+                    Dim temp As Global.System.Resources.ResourceManager = New Global.System.Resources.ResourceManager("Sky_NZ_Channel_and_EPG_Grabber.Resources", GetType(Resources).Assembly)
                     resourceMan = temp
                 End If
                 Return resourceMan
@@ -77,8 +77,7 @@ Namespace My.Resources
         '''!!!=101010111000110000101010111
         '''!!!=101010111000110000101011000
         '''!!!=101010111000110000101011001
-        '''!!!=101010111000110000101011010
-        '''!!!=1010 [rest of string was truncated]&quot;;.
+        '''!!!=10101011100011000010 [rest of string was truncated]&quot;;.
         '''</summary>
         Friend ReadOnly Property UKDict() As String
             Get
